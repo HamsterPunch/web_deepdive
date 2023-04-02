@@ -1,0 +1,54 @@
+git 버전 관리 관련
+
+git init .
+local repository를 초기화 한다.
+
+git status
+working tree와 staging area의 상태를 보여준다.
+
+git add <filename>
+untracked 파일에 대한 tracking을 시작하거나, working tree에 머물러있는 변경사항을 staging area로 올린다.
+
+git commit [-m "<commit message>"]
+staging area에 올라와 있는 변경사항을 반영한 commit을 생성한다.
+[commit을 생성함과 동시에 commit message를 작성한다.]
+
+git log [--stat] [-p]
+commit들의 로그를 보여준다.
+[각각의 commit과 관련된 파일들을 보여준다.]
+[각각의 commit의 변경사항을 보여준다.]
+
+git diff
+현재 working tree와 staging area에 올라가 있는 변경사항을 보여준다. 즉, 최신 commit으로부터의 차이점을 보여준다.
+
+git checkout <commit id>
+HEAD를 commit id가 <commit id>인 commit으로 움직인다.
+
+git reset [--hard] [<commit id>]
+?
+[이전 commit으로 돌아간다. 현재 working tree와 staging area에 있는 변경사항은 모두 삭제하고, 현재 commit도 삭제한다]
+[commit id가 <commit id>인 commit으로 돌아간다. 현재 working tree와 staging area에 있는 변경 사항은 모두 삭제하고, 현재 commit과 목표 commit 사이에 있는 모든 commit을 삭제한다.]
+
+git revert <commit id of the recent commit>
+이전 commit으로 돌아간다. 단, 현재 commit을 삭제하는 것이 아니라, 현재 commit 다음에 새로운 이전 commit을 만들어 돌아가는 방식을 사용한다.
+
+
+git 백업 관련
+
+git remote add [alias for remote repository address] <remote repository address>
+local repository에 remote repository를 연결한다. 하나의 local repository에 여러 개의 remote repository를 연결할 수 있고, 각각의 remote repository마다 alias를 지정할 수 있다.
+
+git remote -v
+local repository에 연결된 remote repository의 목록을 보여준다.
+
+git push [alias for remote repository address] [branch name]
+local repository를 remote repository에 push한다.
+
+git push --set-upstream [alias for remote repository address] [branch name]
+지정된 remote repository와 branch를 push의 기본값으로 지정한다.
+
+git clone <remote repository address> [<new directory name>]
+remote repository를 새로운 디렉토리로 clone 한다.
+
+git pull <alias for remote repository address> <branch name>
+remote repository를 local repository로 pull 한다.
