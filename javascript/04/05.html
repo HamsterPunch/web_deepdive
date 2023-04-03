@@ -3,24 +3,55 @@
     <head>
         <!-- basic style -->
         <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>변수 | 값의 할당</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
-
+            <nav class="navigation">
+                <a href="./04.html">이전</a>
+                <a href="">홈</a>
+                <a href="./06.html">다음</a>
+            </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            위 예제처럼 변수에 값을 할당(대입, 저장)할 때는 할당 연산자 =를 사용한다. 할당 연산자는 우변의 값을 좌변의 변수에 할당한다.
+            <h2>4.5 값의 할당</h2>
 
-            위 예제처럼 변수 선언과 값의 할당을 다음과 같이 하나의 문으로 단축 표현할 수도 있다.
-
-            변수 선언과 값의 할당을 2개의 문으로 나누어 표현한 코드와 변수 선언과 값의 할당을 하나의 문으로 단축 표현한 코드는 정확히 동일하게 동작한다. 즉, 자바스크립트 엔진은 변수 선언과 값의 할당을 하나의 문으로 단축 표현해도 변수 선언과 값의 할당을 2개의 문으로 나누어 각각 실행한다.
-
-            이때 주의할 점은 변수 선언과 값의 할당의 실행 시점이 다르다는 것이다. 변수 선언은 소스코드가 순차적으로 실행되는 시점인 런타임 이전에 먼저 실행되지만 값의 할당은 소스코드가 순차적으로 실행되는 시점인 런타임에 실행된다.
-
-            변수에 값을 할당할 때는 이전 값 undefined가 저장되어 있던 메모리 공간을 지우고 그 메모리 공간에 새로운 할당 값을 저장하는 것이 아니라 새로운 메모리 공간을 확보하고 그곳에 새로운 할당 값을 저장한다는 점에 주의하자.
+            <div class="article">
+                <pre>
+                    <code class="javascript">
+                        var score; // 변수 선언
+                        score = 80; // 값의 할당
+                    </code>
+                </pre>
+                <p>
+                    위 예제처럼 변수에 값을 할당(대입, 저장)할 때는 할당 연산자 =를 사용한다. 할당 연산자는 우변의 값을 좌변의 변수에 할당한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var score = 80; // 변수 선언과 값의 할당
+                    </code>
+                </pre>
+                <p>
+                    위 예제처럼 변수 선언과 값의 할당을 다음과 같이 하나의 문으로 단축 표현할 수도 있다.
+                </p>
+                <p>
+                    변수 선언과 값의 할당을 2개의 문으로 나누어 표현한 코드와 변수 선언과 값의 할당을 하나의 문으로 단축 표현한 코드는 정확히 동일하게 동작한다. 즉, 자바스크립트 엔진은 변수 선언과 값의 할당을 하나의 문으로 단축 표현해도 변수 선언과 값의 할당을 2개의 문으로 나누어 각각 실행한다.
+                </p>
+                <p>
+                    이때 주의할 점은 변수 선언과 값의 할당의 실행 시점이 다르다는 것이다. 변수 선언은 소스코드가 순차적으로 실행되는 시점인 런타임 이전에 먼저 실행되지만 값의 할당은 소스코드가 순차적으로 실행되는 시점인 런타임에 실행된다.
+                </p>
+                <p>
+                    <span class="not_sure">변수에 값을 할당할 때는 이전 값 undefined가 저장되어 있던 메모리 공간을 지우고 그 메모리 공간에 새로운 할당 값을 저장하는 것이 아니라 새로운 메모리 공간을 확보하고 그곳에 새로운 할당 값을 저장한다는 점에 주의하자.</span>
+                </p>
+            </div>
         </div>
     </body>
 </html>

@@ -3,22 +3,50 @@
     <head>
         <!-- basic style -->
         <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>표현식과 문 | 표현식인 문과 표현식이 아닌 문</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
-
+            <nav class="navigation">
+                <a href="./05.html">이전</a>
+                <a href="">홈</a>
+                <a href="">다음</a>
+            </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            문에는 표현식인 문과 표현식이 아닌 문이 있다. 표현식인 문은 값으로 평가될 수 있는 문이며, 표현식이 아닌 문은 값으로 평가될 수 없는 문을 말한다. 예를 들어, 변수 선언문은 값으로 평가될 수 없다. 따라서 표현식이 아닌 문이다. 하지만 할당문은 값으로 평가될 수 있다. 따라서 표현식인 문이다.
+            <h2>5.6 표현식인 문과 표현식이 아닌 문</h2>
 
-            표현식인 문과 표현식이 아닌 문을 구별하는 가장 간단하고 명료한 방법은 변수에 할당해 보는 것이다.
+            <div class="article">
+                <p>
+                    문에는 표현식인 문과 표현식이 아닌 문이 있다. 표현식인 문은 값으로 평가될 수 없는 문이며, 표현식이 아닌 문은 값으로 평가될 수 없는 문을 말한다. 예를 들어, 변수 선언문은 값으로 평가될 수 없다. 따라서 표현식이 아닌 문이다. 하지만 할당문은 값으로 평가될 수 있다. 따라서 표현식인 문이다.
+                </p>
+                <p>
+                    표현식인 문과 표현식이 아닌 문을 구별하는 가장 간단하고 명료한 방법은 변수에 할당해 보는 것이다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 표현식이 아닌 문은 값처럼 사용할 수 없다.
+                        var foo = var x; // SyntaxError: Unexpected token var
 
-            위 예제처럼 변수 선언문은 표현식이 아닌 문이다. 다시 말해 값으로 평가될 수 없다. 따라서 변수 선언문은 값처럼 사용할 수 없다.
-
-            이와 반대로 할당문은 표현식인 문이기 때문에 값처럼 변수에 할당했다. 표현식인 문인 할당문은 할당한 값으로 평가된다. 즉, x = 100은 x 변수에 할당한 값 100으로 평가된다. 따라서 foo 변수에는 100이 할당된다.
+                        // 표현식인 문은 값처럼 사용할 수 있다.
+                        var foo = x = 100;
+                    </code>
+                </pre>
+                <p>
+                    위 예제처럼 변수 선언문은 표현식이 아닌 문이다. 다시 말해 값으로 평가될 수 없다. 따라서 변수 선언문은 값처럼 사용할 수 없다.
+                </p>
+                <p>
+                    이와 반대로 할당문은 표현식인 문이기 때문에 값처럼 변수에 할당했다. 표현식인 문인 할당문은 할당한 값으로 평가된다. 즉, x = 100은 x 변수에 할당한 값 100으로 평가된다. 따라서 foo 변수에는 100이 할당된다.
+                </p>
+            </div>
         </div>
     </body>
 </html>

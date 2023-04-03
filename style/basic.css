@@ -2,3 +2,50 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+.header {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.navigation {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page_content {
+    width: 75%;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.appendix {
+    background-color: lemonchiffon;
+    padding: 32px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.article {
+    background-color:lightskyblue;
+    padding: 32px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.sub_article {
+    background-color:dodgerblue;
+    padding: 32px;
+    border-radius: 32px;
+    margin-top: 32px;
+}
+
+p {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.not_sure {
+    color: red;
+}
