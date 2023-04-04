@@ -8,25 +8,40 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title> | </title>
+        <title>데이터 타입 | undefined 타입</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./04.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./06.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>6.5 undefined 타입</h2>
 
             <div class="article">
                 <p>
-                    
+                    undefined 타입의 값은 undefined가 유일하다.
+                </p>
+                <p>
+                    var 키워드로 선언한 변수는 암묵적으로 undefined로 초기화된다. 다시 말해, 변수 선언에 의해 확보된 메모리 공간을 처음 할당이 이뤄질 때까지 빈 상태(대부분 비어 있지 않고 쓰레기 값이 들어있다)로 내버려두지 않고 자바스크립트 엔진이 undefined로 초기화한다. 따라서 변수를 선언한 이후 값을 할당하지 않은 변수를 참조하면 undefined가 반환된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var foo;
+                        console.log(foo); // undefined
+                    </code>
+                </pre>
+                <p>
+                    이처럼 undefined는 개발자가 의도적으로 할당하기 위한 값이 아니라 자바스크립트 엔진이 변수를 초기화할 때 사용하는 값이다. 변수를 참조했을 때 undefined가 반환된다면 참조한 변수가 선언 이후 값이 할당된 적이 없는, 즉 초기화되지 않은 변수라는 것을 간파할 수 있다.
+                </p>
+                <p>
+                    자바스크립트 엔진이 변수를 초기화하는 데 사용하는 undefined를 개발자가 의도적으로 변수에 할당한다면 undefined의 본래 취지와 어긋날뿐더러 혼란을 줄 수 있으므로 권장하지 않는다.
                 </p>
             </div>
         </div>
