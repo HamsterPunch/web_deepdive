@@ -8,26 +8,67 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title> | </title>
+        <title>연산자 | 할당 연산자</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./01.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./03.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>7.2 할당 연산자</h2>
 
             <div class="article">
                 <p>
-                    
+                    할당 연산자(=, +=, -=, *=, /=, %=)는 우항에 있는 피연산자의 평가 결과를 좌항에 있는 변수에 할당한다. 할당 연산자는 좌항의 변수에 값을 할당하므로 변수 값이 변하는 부수 효과가 있다.
                 </p>
+                <pre>
+                    <code class="javascript">
+                        var x;
+    
+                        x = 10;
+                        console.log(x); // 10
+    
+                        x += 5;
+                        console.log(x); // 15
+    
+                        x -= 5;
+                        console.log(x); // 10
+    
+                        x *= 5;
+                        console.log(x); // 50
+    
+                        x /= 5;
+                        console.log(x); // 10
+    
+                        x %= 5;
+                        console.log(x); // 0
+    
+                        // 문자열 연결 연산자
+                        var str = 'My name is ';
+    
+                        str += 'Lee';
+                        console.log(str); // 'My name is Lee'
+                    </code>
+                </pre>
+                <p>
+                    할당문은 변수에 값을 할당하는 부수 효과만 있을 뿐 값으로 평가되지 않을 것처럼 보인다. 하지만 할당문은 값으로 평가되는 표현식인 문으로서 할당된 값으로 평가된다. 따라서 다음과 같이 할당문을 다른 변수에 할당할 수도 있다. 이러한 특징을 활용해 여러 변수에 동일한 값을 연쇄 할당할 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var a, b, c;
+    
+                        a = b = c = 0;
+    
+                        console.log(a, b, c); // 0 0 0
+                    </code>
+                </pre>
             </div>
         </div>
     </body>

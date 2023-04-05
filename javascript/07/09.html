@@ -8,26 +8,64 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title> | </title>
+        <title>연산자 | 지수 연산자</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./08.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./10.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>7.9 지수 연산자</h2>
 
             <div class="article">
                 <p>
-                    
+                    지수(**) 연산자는 좌항의 피연산자를 밑으로, 우항의 피연산자를 지수로 거듭 제곱하여 숫자 값을 반환한다.
                 </p>
+                <pre>
+                    <code class="javascript">
+                        2 ** 2; // 4
+                        2 ** 2.5; // 5.6584...
+                        2 ** 0; // 1
+                        2 ** -2; // 0.25
+                    </code>
+                </pre>
+                <p>
+                    지수 연산자가 도입되기 이전에는 Math.pow 메서드를 사용했다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        Math.pow(2, 2); // 4
+                        Math.pow(2, 2.5); // 5.6584
+                        Math.pow(2, 0); // 1
+                        Math.pow(2, -2); // 0.25
+                    </code>
+                </pre>
+                <p>
+                    음수를 거듭제곱의 밑으로 사용해 계산하려면 다음과 같이 괄호로 묶어야 한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        -5 ** 2; // SyntaxError
+
+                        (-5) ** 2; // 25
+                    </code>
+                </pre>
+                <p>
+                    지수 연산자는 다른 산술 연산자와 마찬가지로 할당 연산자와 함께 사용할 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var num = 5;
+                        num **= 2; // 25
+                    </code>
+                </pre>
             </div>
         </div>
     </body>

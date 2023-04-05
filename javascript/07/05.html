@@ -8,26 +8,61 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title> | </title>
+        <title>연산자 | 논리 연산자</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./04.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./06.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>7.5 논리 연산자</h2>
 
             <div class="article">
                 <p>
-                    
+                    논리 연산자(||, &&, !)는 우항과 좌항의 피연산자(부정 논리 연산자의 경우 우항의 피연산자)를 논리 연산한다.
                 </p>
+                <p>
+                    논리 부정(!) 연산자는 언제나 불리언 값을 반환한다. 단, 피연산자가 반드시 불리언 값일 필요는 없다. 만약 피연산자가 불리언 값이 아니면 불리언 타입으로 암묵적 타입 변환된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 논리 부정 연산
+                        !true; // false
+                        !false; // true
+
+                        // 암묵적 타입 변환
+                        !0; // true
+                        !'Hello'; // false
+                    </code>
+                </pre>
+                <p>
+                    논리합(||) 또는 논리곱(&&) 연산자 표현식의 평가 결과는 불리언 값이 아닐 수도 있다. 논리합 또는 논리곱 연산자 표현식은 언제나 2개의 피연산자 중 어느 한쪽으로 평가된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 논리합 연산자
+                        true || true; // true
+                        true || false; // true
+                        false || true; // true
+                        false || false; // false
+
+                        // 논리곱 연산자
+                        true && true; // true
+                        true && false; // false
+                        false && true; // false
+                        false && false; // false
+
+                        // 단축 평가
+                        'Cat' && 'Dog'; // 'Dog'
+                    </code>
+                </pre>
             </div>
         </div>
     </body>

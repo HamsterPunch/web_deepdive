@@ -8,26 +8,34 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title> | </title>
+        <title>연산자 | 그룹 연산자</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./06.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./08.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>7.7 그룹 연산자</h2>
 
             <div class="article">
                 <p>
-                    
+                    그룹(()) 연산자는 자신의 피연산자인 표현식을 가장 먼저 평가한다. 따라서 그룹 연산자를 사용하면 연산자의 우선순위를 조절할 수 있다. 그룹 연산자는 연사자 우선순위가 가장 높다.
                 </p>
+                <pre>
+                    <code class="javascript">
+                        10 * 2 + 3; // 23
+
+                        // 그룹 연산자를 사용하여 우선순위를 조절
+                        10 * (2 + 3); // 50
+                    </code>
+                </pre>
             </div>
         </div>
     </body>

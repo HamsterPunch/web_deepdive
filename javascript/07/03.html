@@ -8,26 +8,94 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title> | </title>
+        <title>연산자 | 비교 연산자</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./02.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./04.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>7.3 비교 연산자</h2>
 
             <div class="article">
                 <p>
-                    
+                    비교 연산자는 좌항과 우항의 피연산자를 비교한 다음 그 결과를 불리언 값으로 반환한다. 비교 연산자는 if 문이나 for 문과 같은 제어문의 조건식에서 주로 사용한다.
                 </p>
+                <div class="sub_article">
+                    <p>
+                        동등 비교(==) 연산자는 좌항과 우항의 피연산자를 비교할 때 먼저 암묵적 타입 변환을 통해 타입을 일치시킨 후 같은 값인지 비교한다. 따라서 동등 비교 연산자는 좌항과 우항의 피연산자가 타입이 다르더라도 암묵적 타입 변환 후에 같은 값일 수 있다면 true를 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 동등 비교
+                            5 == 5; // true
+
+                            // 타입은 다르지만 암묵적 타입 변환을 통해 타입을 일치시키면 동등하다.
+                            5 == '5'; // true
+                        </code>
+                    </pre>
+                    <p>
+                        동등 비교 연산자는 편리한 경우도 있지만 결과를 예측하기 어렵고 실수하기 쉽다. 따라서 동등 비교 연산자는 사용하지 않는 편이 좋다.
+                    </p>
+                    <p>
+                        일치 비교(===) 연산자는 좌항과 우항의 피연산자가 타입도 같고 값도 같은 경우에 한하여 true를 반환한다. 다시 말해, 암묵적 타입 변환을 하지 않고 값을 비교한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 일치 비교
+                            5 === 5; // true
+                            5 === '5'; // false
+                        </code>
+                    </pre>
+                    <p>
+                        일치 비교 연산자에서 주의할 것은 NaN이다. NaN은 자신과 일치하지 않는 유일한 값이다. 따라서 숫자가 NaN인지 조사하려면 빌트인 함수 Number.isNaN을 사용한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // NaN은 자신과 일치하지 않는 유일한 값이다.
+                            NaN === NaN; // false
+
+                            // Number.isNaN 함수는 지정한 값이 NaN인지 확인하고 그 결과를 불리언 값으로 반환한다.
+                            Number.isNaN(NaN); // true
+                            Number.isNaN(10); // false
+                            Number.isNaN(1 + undefined); // true
+                        </code>
+                    </pre>
+                    <p>
+                        숫자 0도 주의하자. 자바스크립트에는 양의 0과 음의 0이 이는데 이들을 비교하면 true를 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 양의 0과 음의 0의 비교. 일치 비교/동등 비교 모두 결과는 true다.
+                            0 === -0; // true
+                            0 == -0; // true
+                        </code>
+                    </pre>
+                    <p>
+                        부동등 비교 연산자(!=)와 불일치 비교 연산자(!==)는 각각 동등 비교 연산자와 일치 비교 연산자의 반대 개념이다.
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        대소 관계 비교 연산자(>, <, >=, <=)는 피연산자의 크기를 비교하여 불리언 값을 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 대소 관계 비교
+                            5 > 0; // true
+                            5 > 5; // false
+                            5 >= 5; // true
+                            5 <= 5; // true
+                        </code>
+                    </pre>
+                </div>
             </div>
         </div>
     </body>
