@@ -3,16 +3,112 @@
     <head>
         <!-- basic style -->
         <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>객체 리터럴 | ES6에서 추가된 객체 리터럴의 확장 기능</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
-
+            <nav class="navigation">
+                <a href="./08.html">이전</a>
+                <a href="">홈</a>
+                <a href="">다음</a>
+            </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            
+            <h2>10.9 ES6에서 추가된 객체 리터럴의 확장 기능</h2>
+
+            <div class="article">
+                <p>
+                    ES6에서는 더욱 간편하고 표현력 있는 객체 리터럴의 확장 기능을 제공한다.
+                </p>
+                <p>
+                    ES6에서는 프로퍼티 값으로 변수를 사용하는 경우 변수 이름과 프로퍼티 키가 동일한 이름일 때 프로퍼티 키를 생략할 수 있다. 이때 프로퍼티 키는 변수 이름으로 자동 생성된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // ES5
+                        var x = 1, y = 2;
+
+                        var obj = {
+                            x: x,
+                            y: y
+                        };
+
+                        console.log(obj); // {x: 1, y: 2}
+
+                        // ES6
+                        var x = 1, y = 2;
+
+                        var obj = {x, y};
+
+                        console.log(obj); // {x: 1, y: 2}
+                    </code>
+                </pre>
+                <p>
+                    ES5에서 계산된 프로퍼티 이름으로 프로퍼티 키를 동적 생성하려면 객체 리터럴 외부에서 대괄호([]) 표기법을 사용해야 했지만, ES6에서는 객체 리터럴 내부에서도 계산된 프로퍼티 이름으로 프로퍼티 키를 동적 생성할 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // ES5
+                        var prefix = 'prop';
+                        var i = 0;
+
+                        var obj = {};
+
+                        // 계산된 프로퍼티 이름으로 프로퍼티 키 동적 생성
+                        obj[prefix + ++i] = i;
+                        obj[prefix + ++i] = i;
+                        obj[prefix + ++i] = i;
+
+                        console.log(obj); // {prop1: 1, prop2: 2, prop3: 3}
+
+                        // ES6
+                        var prefix = 'prop';
+                        var i = 0;
+
+                        var obj = {
+                            [prefix + ++i]: i,
+                            [prefix + ++i]: i,
+                            [prefix + ++i]: i
+                        };
+
+                        console.log(obj); // {prop1: 1, prop2: 2, prop3: 3}
+                    </code>
+                </pre>
+                <p>
+                    ES6에서는 메서드를 정의할 때 function 키워드를 생략한 축약 표현을 사용할 수 있다. <span class="not_sure">축약 표현으로 정의한 메서드는 프로퍼티에 할당한 함수와 다르게 동작한다.</span>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // ES5
+                        var obj = {
+                            name: 'Lee',
+                            sayHi: function() {
+                                console.log('Hi! ' + this.name);
+                            }
+                        };
+
+                        obj.sayHi(); // Hi! Lee
+
+                        // ES6
+                        var obj = {
+                            name: 'Lee',
+                            sayHi() {
+                                console.log('Hi! ' + this.name);
+                            }
+                        };
+
+                        obj.sayHi(); // Hi! Lee
+                    </code>
+                </pre>
+            </div>
         </div>
     </body>
 </html>

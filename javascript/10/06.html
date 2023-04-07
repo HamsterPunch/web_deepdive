@@ -3,16 +3,44 @@
     <head>
         <!-- basic style -->
         <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>객체 리터럴 | 프로퍼티 값 갱신</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
-
+            <nav class="navigation">
+                <a href="./05.html">이전</a>
+                <a href="">홈</a>
+                <a href="./07.html">다음</a>
+            </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            이미 존재하는 프로퍼티에 값을 할당하면 프로퍼티 값이 갱신된다.
+            <h2>10.6 프로퍼티 값 갱신</h2>
+
+            <div class="article">
+                <p>
+                    이미 존재하는 프로퍼티에 값을 할당하면 프로퍼티 값이 갱신된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var person = {
+                            name: 'Lee'
+                        };
+
+                        // person 객체에 name 프로퍼티가 존재하므로 name 프로퍼티의 값이 갱신된다.
+                        person.name = 'Kim';
+
+                        console.log(person); // { name: 'Kim' }
+                    </code>
+                </pre>
+            </div>
         </div>
     </body>
 </html>

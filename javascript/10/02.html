@@ -3,24 +3,75 @@
     <head>
         <!-- basic style -->
         <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>객체 리터럴 | 객체 리터럴에 의한 객체 생성</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
-
+            <nav class="navigation">
+                <a href="./01.html">이전</a>
+                <a href="">홈</a>
+                <a href="./03.html">다음</a>
+            </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            자바스크립트는 프로토타입 기반 객체지향 언어로서 클래스 기반 객체지향 언어와는 달리 다양한 객체 생성 방법을 지원한다. - 객체 리터럴, <a href="">Object 생성자 함수</a>, <a href="">생성자 함수</a>, <a href="">Object.create 메서드</a>, <a href="">클래스</a>
+            <h2>10.2 객체 리터럴에 의한 객체 생성</h2>
 
-            위 예제처럼 객체 리터럴은 중괄호 내에 0개 이상의 프로퍼티를 정의한다. 변수에 할당되는 시점에 자바스크립트 엔진은 객체 리터럴을 해석해 객체를 생성한다.
+            <div class="article">
+                <p>
+                    자바스크립트는 프로토타입 기반 객체지향 언어로서 클래스 기반 객체지향 언어와는 달리 다양한 객체 생성 방법을 지원한다.
+                    <ul>
+                        <li>객체 리터럴</li>
+                        <li>Object 생성자 함수</li>
+                        <li>생성자 함수</li>
+                        <li>Object.create 메서드</li>
+                        <li>클래스</li>
+                    </ul>
+                </p>
+                <p>
+                    객체 리터럴은 사람이 이해할 수 있는 문자 또는 약속된 기호를 사용하여 값을 생성하는 표기법을 말한다. 객체 리터럴은 객체를 생성하기 위한 표기법이다.
+                </p>
+                <p>
+                    객체 리터럴은 중괄호 내에 0개 이상의 프로퍼티를 정의한다. 변수에 할당되는 시점에 자바스크립트 엔진은 객체 리터럴을 해석해 객체를 생성한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var person = {
+                            name: 'Lee',
+                            sayHello: function() {
+                                console.log(`Hello! My name is ${this.name}.`);
+                            }
+                        };
 
-            만약 중괄호 내에 프로퍼티를 정의하지 않으면 빈 객체가 생성된다.
+                        console.log(typeof person); // 'object'
+                        console.log(person); // {name: 'Lee', sayHello: f}
+                    </code>
+                </pre>
+                <p>
+                    만약 중괄호 내에 프로퍼티를 정의하지 않으면 빈 객체가 생성된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var empty = {};
 
-            객체 리터럴의 중괄호는 코드 블록을 의미하지 않는다는 데 주의하자. 코드 블록의 닫는 중괄호 뒤에는 세미콜론을 붙이지 않는다. 하지만 객체 리터럴은 값으로 평가되는 표현식이다. 따라서 객체 리터럴의 닫는 중괄호 뒤에는 세미콜론을 붙인다.
-
-            객체 리터럴에 프로퍼티를 포함시켜 객체를 생성함과 동시에 프로퍼티를 만들 수도 있고, 객체를 생성한 이후에 프로퍼티를 동적으로 추가할 수도 있다.
+                        console.log(typeof empty); // 'object'
+                        console.log(empty); // {}
+                    </code>
+                </pre>
+                <p>
+                    객체 리터럴의 중괄호는 코드 블록을 의미하지 않는다는 데 주의하자. 코드 블록의 닫는 중괄호 뒤에는 세미콜론을 붙이지 않는다. 하지만 객체 리터럴은 값으로 평가되는 표현식이다. 따라서 객체 리터럴의 닫는 중괄호 뒤에는 세미콜론을 붙인다.
+                </p>
+                <p>
+                    객체 리터럴에 프로퍼티를 포함시켜 객체를 생성함과 동시에 프로퍼티를 만들 수도 있고, 객체를 생성한 이후에 프로퍼티를 동적으로 추가할 수도 있다.
+                </p>
+            </div>
         </div>
     </body>
 </html>

@@ -3,20 +3,49 @@
     <head>
         <!-- basic style -->
         <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>객체 리터럴 | 메서드</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
-
+            <nav class="navigation">
+                <a href="./03.html">이전</a>
+                <a href="">홈</a>
+                <a href="./05.html">다음</a>
+            </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            자바스크립트에서 사용할 수 있는 모든 값은 프로퍼티 값으로 사용할 수 있다고 했다. 아직 살펴보지 않았지만 <a href="">자바스크립트의 함수는 객체(일급 객체)다</a>. 따라서 함수는 값으로 취급할 수 있기 때문에 프로퍼티 값으로 사용할 수 있다.
+            <h2>10.4 메서드</h2>
 
-            프로퍼티 값이 함수일 경우 일반 함수와 구분하기 위해 메서드라 부른다. 즉, 메서드는 객체에 묶여 있는 함수를 의미한다.
+            <div class="article">
+                <p>
+                    자바스크립트에서 사용할 수 있는 모든 값은 프로퍼티 값으로 사용할 수 있다고 했다. 아직 살펴보지 않았지만 자바스크립트의 함수는 객체(일급 객체)다. 따라서 함수는 값으로 취급할 수 있기 때문에 프로퍼티 값으로 사용할 수 있다.
+                </p>
+                <p>
+                    프로퍼티 값이 함수일 경우 일반 함수와 구분하기 위해 메서드라 부른다. 즉, 메서드는 객체에 묶여 있는 함수를 의미한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var circle = {
+                            // 프로퍼티
+                            radius: 5,
+                            // 메서드
+                            getDiameter: function() {
+                                return 2 * this.radius;
+                            }
+                        };
 
-            메서드 내부에서 사용한 <a href="">this 키워드는 객체 자신(위 예제에서는 circle 객체)을 가리키는 참조변수다</a>.
+                        console.log(circle.getDiameter()); // 10
+                    </code>
+                </pre>
+            </div>
         </div>
     </body>
 </html>

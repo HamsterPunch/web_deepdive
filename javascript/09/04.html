@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>타입 변환과 단축 평가 | 단축 평가</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./03.html">이전</a>
+                <a href="">홈</a>
+                <a href="">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>9.4 단축 평가</h2>
+
+            <div class="article">
+                <p>
+                    7.5절에서 설명하지 않고 뒤로 미룬 내용이 있다. 그것은 바로 "논리합(||) 또는 논리곱(&&) 연산자 표현식의 평가 결과는 불리언 값이 아닐 수도 있다. 논리합 또는 논리곱 연산자 표현식은 언제나 2개의 피연산자 중 어느 한쪽으로 평가된다."라는 것이다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        'Cat' && 'Dog'; // 'Dog'
+                    </code>
+                </pre>
+                <p>
+                    논리곱(&&) 연산자는 두 개의 피연산자가 모두 true로 평가될 때 true를 반환한다. 논리곱 연산자는 좌항에서 우항으로 평가가 진행된다.
+                </p>
+                <p>
+                    첫 번째 피연산자 'Cat'은 Truthy 값이므로 true로 평가된다. 하지만 이 시점까지는 위 표현식을 평가할 수 없다. 두 번째 피연산자까지 평가해 보아야 위 표현식을 평가할 수 있다. 다시 말해, 두 번째 피연산자가 위 논리곱 연산자 표현식의 평가 결과를 결정한다. 이때 논리곱 연산자는 논리 연산의 결과를 결정하는 두 번째 피연산자, 즉 문자열 'Dog'를 그대로 반환한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        'Cat' || 'Dog'; // 'Cat'
+                    </code>
+                </pre>
+                <p>
+                    논리합(||) 연산자는 두 개의 피연산자 중 하나만 true로 평가되어도 true를 반환한다. 논리합 연산자도 좌항에서 우항으로 평가가 진행된다.
+                </p>
+                <p>
+                    첫 번째 피연산자 'Cat'은 Truthy 값이므로 true로 평가된다. 이 시점에 두 번째 피연산자까지 평가해 보지 않아도 위 표현식을 평가할 수 있다. 이때 논리합 연산자는 논리 연산의 결과를 결정한 첫 번째 피연산자, 즉 문자열 'Cat'을 그대로 반환한다.
+                </p>
+                <p>
+                    논리곱(&&) 연산자와 논리합(||) 연산자는 이처럼 논리 연산의 결과를 결정하는 피연산자를 타입 변환하지 않고 그대로 반환한다. 이를 단축 평가라 한다. 단축 평가는 표현식을 평가하는 도중에 평가 결과가 확정된 경우 나머지 평가 과정을 생략하는 것을 말한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 논리합(||) 연산자
+                        'Cat' || 'Dog'; // 'Cat'
+                        false || 'Dog'; // 'Dog'
+                        'Cat' || false; // 'Cat'
+
+                        // 논리곱(&&) 연산자
+                        'Cat' && 'Dog'; // 'Dog'
+                        false && 'Dog'; // false
+                        'Cat' && false; // false
+                    </code>
+                </pre>
+                <p>
+                    단축 평가를 사용하면 if 문을 대체할 수 있다. <span class="not_sure">어떤 조건이 Truthy일 때 무언가를 해야 한다면 논리곱 연산자 표현식으로 if 문을 대체할 수 있다.</span>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var done = true;
+                        var message = '';
+
+                        // 주어진 조건이 true일 때
+                        if(done) message = '완료';
+
+                        // if 문은 단축 평가로 대체 가능하다.
+                        message = done && '완료'
+                        console.log(message); // '완료'
+                    </code>
+                </pre>
+                <p>
+                    <span class="not_sure">어떤 조건이 Falsy일 때 무언가를 해야 한다면 논리합 연산자 표현식으로 if 문을 대체할 수 있다.</span>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var done = false;
+                        var message = '';
+
+                        // 주어진 조건이 false일 때
+                        if(!done) message = '미완료';
+
+                        // if 문은 단축 평가로 대체 가능하다.
+                        message = done || '미완료';
+                        console.log(message); // '미완료'
+                    </code>
+                </pre>
+                <p>
+                    단축 평가는 다음과 같은 상황에서 유용하게 사용된다.
+                    <ul>
+                        <li>객체를 가리키기를 기대하는 변수가 null 또는 undefined가 아닌지 확인하고 프로퍼티를 참조할 때</li>
+                        <li>함수 매개변수에 기본값을 설정할 때</li>
+                    </ul>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 객체인 줄 알고 프로퍼티를 참조한 객체가 null 또는 undefined인 경우 TypeError가 발생한다.
+                        var elem = null;
+                        var value = elem.value; // TypeError: Cannot read property 'value' of null
+
+                        // 이때 단축 평가를 사용하면 에러를 발생시키지 않는다.
+                        var elem = null;
+                        var value = elem && elem.value; // null
+                    </code>
+                </pre>
+                <pre>
+                    <code class="javascript">
+                        // 함수를 호출할 때 인수를 전달하지 않으면 매개변수에는 undefined가 할당된다.
+                        function getStringLength(str) {
+                            return str.length;
+                        }
+                        getStringLength(); // TypeError: Cannot read properties of undefined
+
+                        // 이때 단축 평가를 사용하면 에러를 발생시키지 않는다.
+                        function getStringLength(str) {
+                            str = str || '';
+                            return str.length;
+                        }
+                        getStringLength(); // 0
+
+                        // ES6의 매개변수 기본값 설정을 사용해도 된다.
+                        function getStringLength(str = '') {
+                            return str.length;
+                        }
+                        getStringLength(); // 0
+                    </code>
+                </pre>
+                <div class="sub_article">
+                    <p>
+                        <span class="not_sure">옵셔널 체이닝(?.) 연산자는 좌항의 피연산자가 null 또는 undefined인 경우 undefined를 반환하고, 그렇지 않으면 우항의 프로퍼티 참조를 이어간다.</span>
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var elem = null;
+
+                            var value = elem?.value;
+                            console.log(value); // undefined
+                        </code>
+                    </pre>
+                    <p>
+                        옵셔널 체이닝(?.) 연산자는 객체를 가리키기를 기대하는 변수가 null 또는 undefined가 아닌지 확인하고 프로퍼티를 참조할 때 유용하다. 옵셔널 체이닝 연산자가 도입되기 이전에는 논리곱(&&) 연산자를 사용한 단축 평가를 통해 변수가 null 또는 undefined인지 확인했다.
+                    </p>
+                    <p>
+                        논리곱(&&) 연산자는 좌항 피연산자가 Falsy 값이면 좌항 피연산자를 그대로 반환한다. 좌항 피연산자가 0이나 ''인 경우도 마찬가지다. <span class="not_sure">하지만 0이나 ''은 객체로 평가될 때도 있다.</span>
+                    </p>
+                    <p>
+                        옵셔널 체이닝 연산자는 좌항 피연산자가 Falsy 값이더라도 null 또는 undefined가 아니면 우항의 프로퍼티 참조를 이어간다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var str = '';
+
+                            var length = str?.length;
+                            console.log(length); // 0
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        <span class="not_sure">null 병합(??) 연산자는 좌항의 피연산자가 null 또는 undefined인 경우 우항의 피연산자를 반환하고, 그렇지 않으면 좌항의 피연산자를 반환한다.</span>
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var foo = null ?? 'default string';
+                            console.log(foo); // 'default string'
+                        </code>
+                    </pre>
+                    <p>
+                        null 병합(??) 연산자는 변수에 기본값을 설정할 때 유용하다. null 병합 연산자가 도입되기 이전에는 논리합(||) 연산자를 사용한 단축 평가를 통해 변수에 기본값을 설정했다. 
+                    </p>
+                    <p>
+                        논리합(||) 연산자를 사용한 단축 평가의 경우 좌항의 피연산자가 Falsy 값이면 우항의 피연산자를 반환한다. 만약 Falsy 값인 0이나 ''도 기본값으로서 유효하다면 예기치 않은 동작이 발생할 수 있다.
+                    </p>
+                    <p>
+                        하지만 null 병합 연산자는 좌항의 피연산자가 Falsy 값이더라도 null 또는 undefined가 아니면 좌항의 피연산자를 그대로 반환한다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
