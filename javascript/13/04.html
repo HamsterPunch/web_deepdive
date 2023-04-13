@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>스코프 | 함수 레벨 스코프</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./03.html">이전</a>
+                <a href="">홈</a>
+                <a href="./05.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>13.4 함수 레벨 스코프</h2>
+
+            <div class="article">
+                <p>
+                    지역은 함수 몸체 내부를 말하고 지역은 지역 스코프를 만든다고 했다. 이는 코드 블록이 아닌 함수에 의해서만 지역 스코프가 생성된다는 의미다.
+                </p>
+                <p>
+                    C나 자바 등을 비롯한 대부분의 프로그래밍 언어는 함수 몸체만이 아니라 모든 코드 블록(if, for, while, try/catch 등)이 지역 스코프를 만든다. 이러한 특성을 블록 레벨 스코프라 한다. 하지만 var 키워드로 선언된 변수는 오로지 함수의 코드 블록(함수 몸체)만을 지역 스코프로 인정한다. 이러한 특성을 함수 레벨 스코프라 한다. 다음 예제를 살펴보자.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var x = 1;
+
+                        if (true) {
+                            // var 키워드로 선언된 변수는 함수의 코드 블록(함수 몸체)만을 지역 스코프로 인정한다.
+                            // 함수 밖에서 var 키워드로 선언된 변수는 코드 블록 내에서 선언되었다 할지라도 모두 전역 변수다.
+                            // 따라서 x는 전역 변수다. 이미 선언된 전역 변수 x가 있으므로 x 변수는 중복 선언된다.
+                            // 이는 의도치 않게 변수 값이 변경되는 부작용을 발생시킨다.
+                            var x = 10;
+                        }
+
+                        console.log(x); // 10
+                    </code>
+                </pre>
+                <p>
+                    전역 변수 x가 선언되었고 if 문의 코드 블록 내에도 x 변수가 선언되었다. 이때 if 문의 코드 블록 내에서 선언된 x 변수는 전역 변수다. var 키워드로 선언된 변수는 함수 레벨 스코프만 인정하기 때문에 함수 밖에서 var 키워드로 선언된 변수는 코드 블록 내에서 선언되었다 할지라도 모두 전역 변수다. 따라서 전역 변수 x는 중복 선언되고 그 결과 의도치 않은 전역 변수의 값이 재할당된다. 예제를 하나 더 살펴보자.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        var i = 10;
+
+                        // for 문에서 선언한 i는 전역 변수다. 이미 선언된 전역 변수 i가 있으므로 중복 선언된다.
+                        for (var i = 0; i < 5; i++) {
+                            console.log(i); // 0 1 2 3 4
+                        }
+
+                        // 의도치 않게 변수의 값이 변경되었다.
+                        console.log(i); // 5
+                    </code>
+                </pre>
+                <p>
+                    블록 레벨 스코프를 지원하는 프로그래밍 언어에서는 for 문에서 반복을 위해 선언된 i 변수가 for 문의 코드 블록 내에서만 유효한 지역 변수다. 이 변수는 for 문 외부에서 사용할 일은 없기 때문이다. 하지만 var 키워드로 선언된 변수는 블록 레벨 스코프를 인정하지 않기 때문에 i 변수는 전역 변수가 된다. 따라서 전역 변수 i는 중복 선언되고 그 결과 의도치 않은 전역 변수의 값이 재할당된다.
+                </p>
+                <p>
+                    var 키워드로 선언된 변수는 오로지 함수의 코드 블록만을 지역 스코프로 인정하지만 ES6애서 도입된 let, const 키워드는 블록 레벨 스코프를 지원한다.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
