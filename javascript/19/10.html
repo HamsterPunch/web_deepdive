@@ -8,24 +8,149 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title></title>
+        <title>프로토타입 | instanceof 연산자</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./09.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./11.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>19.10 instanceof 연산자</h2>
 
             <div class="article">
-                
+                <p>
+                    instanceof 연산자는 이항 연산자로서 좌변에 객체를 가리키는 식별자, 우변에 생성자 함수를 가리키는 식별자를 피연산자로 받는다. 만약 우변의 피연산자가 함수가 아닌 경우 TypeError가 발생한다.
+                </p>
+                <p>
+                    우변의 생성자 함수의 prototype에 바인딩된 객체가 좌변의 객체의 프로토타입 체인 상에 존재하면 true로 평가되고, 그렇지 않은 경우에는 false로 평가된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 생성자 함수
+                        function Person(name) {
+                            this.name = name;
+                        }
+
+                        const me = new Person('Lee');
+
+                        // Person.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Person); // true
+
+                        // Object.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Object); // true
+                    </code>
+                </pre>
+                <p>
+                    instanceof 연산자가 어떻게 동작하는지 이해하기 위해 프로토타입을 교체해 보자.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 생성자 함수
+                        function Person(name) {
+                            this.name = name;
+                        }
+
+                        const me = new Person('Lee');
+
+                        // 프로토타입으로 교체할 객체
+                        const parent = {};
+
+                        // 프로토타입의 교체
+                        Object.setPrototypeOf(me, parent);
+
+                        // Person 생성자 함수와 parent 객체는 연결되어 있지 않다.
+                        console.log(Person.prototype === parent); // false
+                        console.log(parent.constructor === Person); // false
+
+                        // Person.prototype이 me 객체의 프로토타입 체인 상에 존재하지 않기 때문에 false로 평가된다.
+                        console.log(me instanceof Person); // false
+
+                        // Object.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Object); // true
+                    </code>
+                </pre>
+                <p>
+                    me 객체는 비록 프로토타입이 교체되어 프로토타입과 생성자 함수 간의 연결이 파괴되었지만 Person 생성자 함수에 의해 생성된 인스턴스임에는 틀림이 없다. 그러나 me instanceof Person은 false로 평가된다.
+                </p>
+                <p>
+                    이는 Person.prototype이 me 객체의 프로토타입 체인 상에 존재하지 않기 때문이다. 따라서 프로토타입으로 교체한 parent 객체를 Person 생성자 함수의 prototype 프로퍼티에 바인딩하면 me instanceof Person은 true로 평가될 것이다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 생성자 함수
+                        function Person(name) {
+                            this.name = name;
+                        }
+
+                        const me = new Person('Lee');
+
+                        // 프로토타입으로 교체할 객체
+                        const parent = {};
+
+                        // 프로토타입의 교체
+                        Object.setPrototypeOf(me, parent);
+
+                        // Person 생성자 함수와 parent 객체는 연결되어 있지 않다.
+                        console.log(Person.prototype === parent); // false
+                        console.log(parent.constructor === Person); // false
+
+                        // parent 객체를 Person 생성자 함수의 prototype 프로퍼티에 바인딩한다.
+                        Person.prototype = parent;
+
+                        // Person.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Person); // true
+
+                        // Object.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Object); // true
+                    </code>
+                </pre>
+                <p>
+                    이처럼 instanceof 연산자는 프로토타입의 constructor 프로퍼티가 가리키는 생성자 함수를 찾는 것이 아니라 생성자 함수의 prototype에 바인딩된 객체가 프로토타입 체인 상에 존재하는지 확인한다.
+                </p>
+                <p>
+                    me instanceof Person의 경우 me 객체의 프로토타입 체인 상에 Person.prototype에 Person.prototype에 바인딩된 객체가 존재하는지 확인한다.
+                </p>
+                <p>
+                    me instanceof Object의 경우도 마찬가지다. me 객체의 프로토타입 체인 상에 Object.prototype에 바인딩된 객체가 존재하는지 확인한다.
+                </p>
+                <p>
+                    따라서 생성자 함수에 의해 프로토타입이 교체되어 constructor 프로퍼티와 생성자 함수 간의 연결이 파괴되어도 생성자 함수의 prototype 프로퍼티와 프로토타입 간의 연결은 파괴되지 않으므로 instanceof는 아무런 영향을 받지 않는다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const Person = (function() {
+                            function Person(name) {
+                                this.name = name;
+                            }
+
+                            // 생성자 함수의 prototype 프로퍼티를 통해 프로토타입을 교체
+                            Person.prototype = {
+                                sayHello() {
+                                    console.log(`Hi! My name is ${this.name}`);
+                                }
+                            };
+
+                            return Person;
+                        }());
+
+                        const me = new Person('Lee');
+
+                        // constructor 프로퍼티와 생성자 함수 간의 연결이 파괴되어도 instanceof는 아무런 영향을 받지 않는다.
+                        console.log(me.constructor === Person); // false
+
+                        // Person.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Person); // true
+                        // Object.prototype이 me 객체의 프로토타입 체인 상에 존재하므로 true로 평가된다.
+                        console.log(me instanceof Object); // true
+                    </code>
+                </pre>
             </div>
         </div>
     </body>

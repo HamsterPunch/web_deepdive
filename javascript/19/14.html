@@ -8,13 +8,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title></title>
+        <title>프로토타입 | 프로퍼티 열거</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./13.html">이전</a>
                 <a href="">홈</a>
                 <a href="">다음</a>
             </nav>
@@ -22,10 +22,210 @@
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>19.14 프로퍼티 열거</h2>
 
             <div class="article">
-                
+                <div class="sub_article">
+                    <p>
+                        객체의 모든 프로퍼티를 순회하며 열거하려면 for...in 문을 사용한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const person = {
+                                name: 'Lee',
+                                address: 'Seoul'
+                            };
+
+                            // for...in 문의 변수 prop에 person 객체의 프로퍼티 키가 할당된다.
+                            for (const key in person) {
+                                console.log(key + ': ' + person[key]);
+                            }
+                            // name: Lee
+                            // address: Seoul
+                        </code>
+                    </pre>
+                    <p>
+                        <span class="not_sure">for...in 문은 객체의 프로퍼티 개수만큼 순회하며 for...in 문의 변수 선언문에서 선언한 변수에 프로퍼티 키를 할당한다. 위 예제의 경우 person 객체에는 2개의 프로퍼티가 있으므로 객체를 2번 순회하면서 프로퍼티 키를 key 변수에 할당한 후 코드 블록을 실행한다. 첫 번째 순회에서는 프로퍼티 키 'name'을 key 변수에 할당한 후 코드 블록을 실행하고 두 번째 순회에서는 프로퍼티 키 'address'를 key 변수에 할당한 후 코드 블록을 실행한다.</span>
+                    </p>
+                    <p>
+                        for...in 문은 in 연산자처럼 순회 대상 객체의 프로퍼티뿐만 아니라 상속받은 프로토타입의 프로퍼티까지 열거한다. 하지만 위 예제의 경우 toString과 같은 Object.prototype의 프로퍼티가 열거되지 않는다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const person = {
+                                name: 'Lee',
+                                address: 'Seoul'
+                            };
+
+                            // in 연산자는 객체가 상속받은 모든 프로토타입의 프로퍼티를 확인한다.
+                            console.log('toString' in person); // true
+
+                            // for...in 문도 객체가 상속받은 모든 프로토타입의 프로퍼티를 열거한다.
+                            // 하지만 toString과 같은 Object.prototype의 프로퍼티가 열거되지 않는다.
+                            for (const key in person) {
+                                console.log(key + ': ' + person[key]);
+                            }
+                            // name: Lee
+                            // address: Seoul
+                        </code>
+                    </pre>
+                    <p>
+                        이는 toString 메서드가 열거할 수 없도록 정의되어 있는 프로퍼티이기 때문이다. 다시 말해, Object.prototype.toString 프로퍼티의 프로퍼티 어트리뷰트 [[Enumerable]]의 값이 false이기 때문이다. 프로퍼티 어트리뷰트 [[Enumerable]]은 프로퍼티의 열거 가능 여부를 나타내며 불리언 값을 갖는다.
+                    </p>
+                    <p>
+                        for...in 문은 객체의 프로토타입 체인 상에 존재하는 모든 프로토타입의 프로퍼티 중에서 프로퍼티 어트리뷰트 [[Enumerable]]의 값이 true인 프로퍼티를 순회하며 열거한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const person = {
+                                name: 'Lee',
+                                address: 'Seoul',
+                                __proto__: { age: 20 }
+                            };
+
+                            for (const key in person) {
+                                console.log(key + ': ' + person[key]);
+                            }
+                            // name: Lee
+                            // address: Seoul
+                            // age: 20
+                        </code>
+                    </pre>
+                    <p>
+                        for...in 문은 프로퍼티 키가 심벌인 프로퍼티는 열거하지 않는다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const sym = Symbol();
+                            const obj = {
+                                a: 1,
+                                [sym]: 10
+                            };
+
+                            for (const key in obj) {
+                                console.log(key + ': ' + obj[key]);
+                            }
+                            // a: 1
+                        </code>
+                    </pre>
+                    <p>
+                        상속받은 프로퍼티는 제외하고 객체 자신의 프로퍼티만 열거하려면 Object.prototype.hasOwnProperty 메서드를 사용하여 객체 자신의 프로퍼티인지 확인해야 한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const Person = {
+                                name: 'Lee',
+                                address: 'Seoul',
+                                __proto__: { age: 20 }
+                            };
+
+                            for (const key in person) {
+                                if (!person.hasOwnProperty(key)) continue;
+                                console.log(key + ': ' + person[key]);
+                            }
+                            // name: Lee
+                            // address: Seoul
+                        </code>
+                    </pre>
+                    <p>
+                        위 예제의 결과는 person 객체의 프로퍼티가 정의된 순서대로 열거되었다. 하지만 for...in 문은 프로퍼티를 열거할 때 순서를 보장하지 않으므로 주의하기 바란다. 하지만 대부분의 모던 브라우저는 순서를 보장하고 숫자(사실은 문자열)인 프로퍼티 키에 대해서는 정렬을 실시한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const obj = {
+                                2: 2,
+                                3: 3,
+                                1: 1,
+                                b: 'b',
+                                a: 'a'
+                            };
+
+                            for (const key in obj) {
+                                if (!obj.hasOwnProperty(key)) continue;
+                                console.log(key + ': ' + obj[key]);
+                            }
+
+                            /*
+                            1: 1
+                            2: 2
+                            3: 3
+                            b: b
+                            a: a
+                            */
+                        </code>
+                    </pre>
+                    <p>
+                        배열에는 for...in 문을 사용하지 말고 일반적인 for 문이나 for...of 문 또는 Array.prototype.forEach 메서드를 사용하기를 권장한다. 사실 배열도 객체이므로 프로퍼티와 상속받은 프로퍼티가 포함될 수 있다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const arr = [1, 2, 3];
+                            arr.x = 10; // 배열도 객체이므로 프로퍼티를 가질 수 있다.
+
+                            for (const i in arr) {
+                                // 프로퍼티 x도 출력된다.
+                                console.log(arr[i]); // 1 2 3 10
+                            };
+
+                            // arr.length는 3이다.
+                            for (let i = 0; i < arr.length; i++) {
+                                console.log(arr[i]); // 1 2 3
+                            }
+
+                            // forEach 메서드는 요소가 아닌 프로퍼티는 제외한다.
+                            arr.forEach(v => console.log(v)); // 1 2 3
+
+                            // for...of는 변수 선언문에서 선언한 변수에 키가 아닌 값을 할당한다.
+                            for (const value of arr) {
+                                console.log(value); // 1 2 3
+                            }
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        지금까지 살펴보았듯이 for...in 문은 객체 자신의 고유 프로퍼티뿐 아니라 상속받은 프로퍼티도 열거한다. 따라서 Object.prototype.hasOwnProperty 메서드를 사용하여 객체 자신의 프로퍼티인지 확인하는 추가 처리가 필요하다.
+                    </p>
+                    <p>
+                        객체 자신의 고유 프로퍼티만 열거하기 위해서는 for...in 문을 사용하는 것보다 Object.keys/values/entries 메서드를 사용하는 것을 권장한다.
+                    </p>
+                    <p>
+                        Object.keys 메서드는 객체 자신의 열거 가능한 프로퍼티 키를 배열로 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const person = {
+                                name: 'Lee',
+                                address: 'Seoul',
+                                __proto__: { age: 20 }
+                            };
+
+                            console.log(Object.keys(person)); // ['name', 'address']
+                        </code>
+                    </pre>
+                    <p>
+                        ES8에서 도입된 Object.values 메서드는 객체 자신의 열거 가능한 프로퍼티 값을 배열로 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            console.log(Object.values(person)); // ['Lee', 'Seoul']
+                        </code>
+                    </pre>
+                    <p>
+                        ES8에서 도입된 Object.entries 메서드는 객체 자신의 열거 가능한 프로퍼티 키와 값의 쌍의 배열을 배열에 담아 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            console.log(Object.entries(person)); // [['name', 'Lee'], ['address', 'Seoul']]
+
+                            Object.entries(person).forEach(([key, value]) => console.log(key, value));
+                            /*
+                            name Lee
+                            address Seoul
+                            */
+                        </code>
+                    </pre>
+                </div>
             </div>
         </div>
     </body>
