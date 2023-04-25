@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>strict mode | 전역에 strict mode를 적용하는 것은 피하자</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./02.html">이전</a>
+                <a href="">홈</a>
+                <a href="./04.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>20.3 전역에 strict mode를 적용하는 것은 피하자</h2>
+
+            <div class="article">
+                <p>
+                    전역에 적용한 strict mode는 스크립트 단위로 적용된다.
+                </p>
+                <p>
+                    스크립트 단위로 적용된 strict mode는 다른 스크립트에 영향을 주지 않고 해당 스크립트에 한정되어 적용된다.
+                </p>
+                <p>
+                    하지만 strict mode 스크립트와 non-strict mode 스크립트를 혼용하는 것은 오류를 발생시킬 수 있다. 특히 외부 서드파티 라이브버리를 사용하는 경우 라이브러리가 non-strict mode인 경우도 있기 때문에 전역에 strict mode를 적용하는 것은 바람직하지 않다. <span class="not_sure">이러한 경우 즉시 실행 함수로 스크립트 전체를 감싸서 스코프를 구분하고 즉시 실행 함수의 선두에 strict mode를 적용한다.</span>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 즉시 실행 함수의 선두에 strict mode 적용
+                        (function() {
+                            'use strict';
+
+                            // Do something...
+                        }());
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>

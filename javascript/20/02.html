@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>strict mode | strict mode의 적용</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./01.html">이전</a>
+                <a href="">홈</a>
+                <a href="./03.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>20.2 strict mode의 적용</h2>
+
+            <div class="article">
+                <p>
+                    strict mode를 적용하려면 전역의 선두 또는 함수 몸체의 선두에 'use strict';를 추가한다. 전역의 선두에 추가하면 스크립트 전체에 strict mode가 적용된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        'use strict';
+
+                        function foo() {
+                            x = 10; // ReferenceError: x is not defined
+                        }
+                        foo();
+                    </code>
+                </pre>
+                <p>
+                    함수 몸체의 선두에 추가하면 해당 함수와 중첩 함수에 strict mode가 적용된다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        function foo() {
+                            'use strict';
+
+                            x = 10; // ReferenceError: x is not defined
+                        }
+                        foo();
+                    </code>
+                </pre>
+                <p>
+                    코드의 선두에 'use strict';를 위치시키지 않으면 strict mode가 제대로 동작하지 않는다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        function foo() {
+                            x = 10; // 에러를 발생시키지 않는다.
+                            'use strict';
+                        }
+                        foo();
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>
