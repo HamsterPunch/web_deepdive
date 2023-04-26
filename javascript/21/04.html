@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>빌트인 객체 | 전역 객체</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./03.html">이전</a>
+                <a href="">홈</a>
+                <a href="">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>21.4 전역 객체</h2>
+
+            <div class="article">
+                <p>
+                    전역 객체는 코드가 실행되기 이전 단계에 자바스크립트 엔진에 의해 어떤 객체보다도 먼저 생성되는 특수한 객체이며, 어떤 객체에도 속하지 않은 최상위 객체다.
+                </p>
+                <p>
+                    전역 객체는 자바스크립트 환경에 따라 지칭하는 이름이 제각각이다. 브라우저 환경에서는 window(또는 self, this, frames)가 전역 객체를 가리키지만 Node.js 환경에서는 global이 전역 객체를 가리킨다.
+                </p>
+                <p>
+                    전역 객체는 표준 빌트인 객체(Object, String, Number, Function, Array 등)와 환경에 따른 호스트 객체(클라이언트 Web API 또는 Node.js의 호스트 API), 그리고 var 키워드로 선언한 전역 변수와 전역 함수를 프로퍼티로 갖는다.
+                </p>
+                <p>
+                    즉, 전역 객체는 계층적 구조상 어떤 객체에도 속하지 않은 모든 빌트인 객체(표준 빌트인 객체와 호스트 객체)의 최상위 객체다. 전역 객체가 최상위 객체라는 것은 프로토타입 상속 관계상에서 최상위 객체라는 의미가 아니다. 전역 객체 자신은 어떤 객체의 프로퍼티도 아니며 객체의 계층적 구조상 표준 빌트인 객체와 호스트 객체를 프로퍼티로 소유한다는 것을 말한다.
+                </p>
+                <p>
+                    전역 객체의 특징은 다음과 같다.
+                </p>
+                <p>
+                    <ul>
+                        <li>
+                            전역 객체는 개발자가 의도적으로 생성할 수 없다. 즉, 전역 객체를 생성할 수 있는 생성자 함수가 제공되지 않는다.
+                        </li>
+                        <li>
+                            전역 객체의 프로퍼티를 참조할 때 window(또는 global)를 생략할 수 있다.
+                        </li>
+                    </ul>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 문자열 'F'를 16진수로 해석하여 10진수로 변환하여 반환한다.
+                        window.parseInt('F', 16); // 15
+                        // window.parseInt는 parseInt로 호출할 수 있다.
+                        parseInt('F', 16); // 15
+
+                        window.parseInt = parseInt; // true
+                    </code>
+                </pre>
+                <p>
+                    <ul>
+                        <li>
+                            전역 객체는 Object, Number, Boolean, Function, Array, RegExp, Date, Math, Promise 같은 모든 표준 빌트인 객체를 프로퍼티로 가지고 있다.
+                        </li>
+                        <li>
+                            자바스크립트 실행 환경(브라우저 환경 또는 Node.js 환경)에 따라 추가적으로 프로퍼티와 메서드를 갖는다. 브라우저 환경에서는 DOM, BOM, Canvas, XMLHTTPRequest, fetch, requestAnimationFrame, SVG, Web Storage, Web Component, Web Worker 같은 클라이언트 사이트 Web API를 호스트 객체로 제공하고 Node.js 환경에서는 Node.js 고유의 API를 호스트 객체로 제공한다.
+                        </li>
+                        <li>
+                            var 키워드로 선언한 전역 변수와 선언하지 않은 변수에 값을 할당한 암묵적 전역, 그리고 전역 함수는 전역 객체의 프로퍼티가 된다.
+                        </li>
+                    </ul>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // var 키워드로 선언한 전역 변수
+                        var foo = 1;
+                        console.log(window.foo); // 1
+
+                        // 선언하지 않은 변수에 값을 암묵적 전역, bar는 전역 변수가 아니라 전역 객체의 프로퍼티다.
+                        bar = 2; // window.bar = 2
+                        console.log(window.bar); // 2
+
+                        // 전역 함수
+                        function baz() {return 3;}
+                        console.log(window.baz()); // 3
+                    </code>
+                </pre>
+                <p>
+                    <ul>
+                        <li>
+                            let이나 const 키워드로 선언한 전역 변수는 전역 객체의 프로퍼티가 아니다. 즉, window.foo와 같이 접근할 수 없다. <span class="not_sure">let이나 const 키워드로 선언한 전역 변수는 보이지 않는 개념적인 블록(전역 렉시컬 환경의 선언적 환경 레코드) 내에 존재하게 된다.</span>
+                        </li>
+                    </ul>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        let foo = 123;
+                        console.log(window.foo); // undefined
+                    </code>
+                </pre>
+                <p>
+                    <ul>
+                        <li>
+                            브라우저 환경의 모든 자바스크립트 코드는 하나의 전역 객체 window를 공유한다. 여러 개의 script 태그를 통해 자바스크립트 코드를 분리해도 하나의 전역 객체 window를 공유하는 것은 변함이 없다. 이는 분리되어 있는 자바스크립트 코드가 하나의 전역을 공유한다는 의미다.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    전역 객체는 몇 가지 프로퍼티와 메서드를 가지고 있다. 전역 객체의 프로퍼티와 메서드는 전역 객체를 가리키는 식별자, 즉 window나 global을 생략하여 참조/호출할 수 있으므로 전역 변수와 전역 함수처럼 사용할 수 있다.
+                </p>
+                <div class="sub_article">
+                    <p>
+                        빌트인 전역 프로퍼티는 전역 객체의 프로퍼티를 의미한다. 주로 애플리케이션 전역에서 사용하는 값을 제공한다.
+                    </p>
+                    <p>
+                        Infinity 프로퍼티는 무한대를 나타내는 숫자값 Infinity를 갖는다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 전역 프로퍼티는 window를 생략하고 참조할 수 있다.
+                            console.log(window.Infinity === Infinity); // true
+
+                            // 양의 무한대
+                            console.log(3/0); // Infinity
+                            // 음의 무한대
+                            console.log(-3/0); // -Infinity
+                            // Infinity는 숫자값이다.
+                            console.log(typeof Infinity); // number
+                        </code>
+                    </pre>
+                    <p>
+                        NaN 프로퍼티는 숫자가 아님을 나타내는 숫자값 NaN을 갖는다. NaN 프로퍼티는 Number.NaN 프로퍼티와 같다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            console.log(window.NaN); // NaN
+
+                            console.log(Number('xyz')); // NaN
+                            console.log(1 * 'string'); // NaN
+                            console.log(typeof NaN); // number
+                        </code>
+                    </pre>
+                    <p>
+                        undefined 프로퍼티는 원시 타입 undefined를 값으로 갖는다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            console.log(window.undefined);
+
+                            var foo;
+                            console.log(foo); // undefined
+                            console.log(typeof undefined); // undefined
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        빌트인 전역 함수는 애플리케이션 전역에서 호출할 수 있는 빌트인 함수로서 전역 객체의 메서드다.
+                    </p>
+                    <p>
+                        eval 함수는 자바스크립트 코드를 나타내는 문자열을 인수로 전달받는다. 전달받은 문자열 코드가 표현식이라면 eval 함수는 문자열 코드를 런타임에 평가하여 값을 생성하고, 전달받은 인수가 표현식이 아닌 문이라면 eval 함수는 문자열 코드를 런타임에 실행한다. 문자열 코드가 여러 개의 문으로 이루어져 있다면 모든 문을 실행한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 표현식인 문
+                            eval('1 + 2;'); // 3
+                            // 표현식이 아닌 문
+                            eval('var x = 5;'); // undefined
+
+                            // eval 함수에 의해 런타임에 변수 선언문이 실행되어 x 변수가 선언되었다.
+                            console.log(x); // 5
+
+                            // 객체 리터럴은 반드시 괄호로 둘러싼다.
+                            const o = eval('({ a: 1 })');
+                            console.log(o); // { a: 1 }
+
+                            // 함수 리터럴은 반드시 괄호로 둘러싼다.
+                            const f = eval('(function() { return 1; })');
+                            console.log(f()); // 1
+                        </code>
+                    </pre>
+                    <p>
+                        인수로 전달받은 문자열 코드가 여러 개의 문으로 이루어져 있다면 모든 문을 실행한 다음, 마지막 결과값을 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            eval('1 + 2; 3 + 4;'); // 7
+                        </code>
+                    </pre>
+                    <p>
+                        <span class="not_sure">eval 함수는 자신이 호출된 위치에 해당하는 기존의 스코프를 런타임에 동적으로 수정한다.</span> 다음 예제를 살펴보자.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const x = 1;
+
+                            function foo() {
+                                // eval 함수는 런타임에 foo 함수의 스코프를 동적으로 수정한다.
+                                eval('var x = 2;');
+                                console.log(x); // 2
+                            }
+
+                            foo();
+                            console.log(x); // 1
+                        </code>
+                    </pre>
+                    <p>
+                        위 예제의 eval 함수는 새로운 x 변수를 선언하면서 foo 함수의 스코프에 선언된 x 변수를 동적으로 추가한다. 함수가 호출되면 런타임 이전에 먼저 함수 몸체 내부의 모든 선언문을 먼저 실행하고 그 결과를 스코프에 등록한다. 따라서 위 예제의 eval 함수가 호출되는 시점에는 이미 foo 함수의 스코프가 존재한다. 하지만 eval 함수는 기존의 스코프를 런타임에 동적으로 수정한다. 그리고 eval 함수에 전달된 코드는 이미 그 위치에 존재하던 코드처럼 동작한다. 즉, eval 함수가 호출된 foo 함수의 스코프에서 실행된다.
+                    </p>
+                    <p>
+                        단, strict mode에서 eval 함수는 기존의 스코프를 수정하지 않고 eval 함수 자신의 자체적인 스코프를 생성한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const x = 1;
+
+                            function foo() {
+                                'use strict';
+
+                                // strict mode에서 eval 함수는 기존의 스코프를 수정하지 않고 eval 함수 자신의 자체적인 스코프를 생성한다.
+                                eval('var x = 2; console.log(x);'); // 2
+                                console.log(x); // 1
+                            }
+                            
+                            foo();
+                            console.log(x); // 1
+                        </code>
+                    </pre>
+                    <p>
+                        또한 인수로 전달받은 문자열 코드가 let, const 키워드를 사용한 변수 선언문이라면 암묵적으로 strict mode가 적용된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const x = 1;
+
+                            function foo() {
+                                eval('var x = 2; console.log(x);'); // 2
+                                eval('const x = 3; console.log(x);'); // 3
+                                console.log(x); // 2
+                            }
+
+                            foo();
+                            console.log(x); // 1
+                        </code>
+                    </pre>
+                    <p>
+                        eval 함수를 통해 사용자로부터 입력받은 콘텐츠를 실행하는 것은 보안에 매우 취약하다. 또한 eval 함수를 통해 실행되는 코드는 자바스크립트 엔진에 의해 최적화가 수행되지 않으므로 일반적인 코드 실행에 비해 처리 속도가 느리다. 따라서 eval 함수의 사용은 금지해야 한다.
+                    </p>
+                    <p>
+                        isFinite 함수는 전달받은 인수가 정상적인 유한수인지 검사하여 유한수이면 true를 반환하고, 무한수이면 false를 반환한다. 전달받은 인수의 타입이 숫자가 아닌 경우, 숫자로 타입을 변환한 후 검사를 수행한다. 이때 인수가 NaN으로 평가되는 값이라면 false를 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 인수가 유한수이면 true를 반환한다.
+                            isFinite(0); // true
+                            isFinite(2e64); // true
+                            isFinite('10'); // true
+                            isFinite(null); // true
+
+                            // 인수가 무한수 또는 NaN으로 평가되는 값이라면 false를 반환한다.
+                            isFinite(Infinity); // false
+                            isFinite(-Infinity); // false
+
+                            // 인수가 NaN으로 평가되는 값이라면 false를 반환한다.
+                            isFinite(NaN); // false
+                            isFinite('Hello'); // false
+                            isFinite('2005/12/12'); // false
+                        </code>
+                    </pre>
+                    <p>
+                        isNaN 함수는 전달받은 인수가 NaN인지 검사하여 그 결과를 불리언 타입으로 반환한다. 전달받은 인수의 타입이 숫자가 아닌 경우 숫자로 타입을 변환한 후 검사를 수행한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 숫자
+                            isNaN(NaN); // true
+                            isNaN(10); // false
+
+                            // 문자열
+                            isNaN('blabla'); // true
+                            isNaN('10'); // false
+                            isNaN('10.12'); // false
+                            isNaN(''); // false
+                            isNaN(' '); // false
+                            
+                            // 불리언
+                            isNaN(true); // false
+                            isNaN(null); // false
+
+                            // undefined
+                            isNaN(undefined); // true
+                            
+                            // 객체
+                            isNaN({}); // true
+
+                            // date
+                            isNaN(new Date()); // false
+                            isNaN(new Date().toString()); // true
+                        </code>
+                    </pre>
+                    <p>
+                        ...
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        먼저 다음 예제를 살펴보자
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var x = 10; // 전역 변수
+
+                            function foo() {
+                                // 선언하지 않은 식별자에 값을 할당
+                                y = 20; // window.y = 20;
+                            }
+                            foo();
+
+                            // 선언하지 않은 식별자 y를 전역에서 참조할 수 있다.
+                            console.log(x + y); // 30
+                        </code>
+                    </pre>
+                    <p>
+                        foo 함수 내의 y는 선언하지 않은 식별자다. 따라서 y = 20이 실행되면 참조 에러가 발생할 것처럼 보인다. 하지만 선언하지 않은 식별자 y는 마치 선언된 전역 변수처럼 동작한다. 이는 선언하지 않은 식별자에 값을 할당하면 전역 객체의 프로퍼티가 되기 때문이다.
+                    </p>
+                    <p>
+                        foo 함수가 호출되면 자바스크립트 엔진은 y 변수에 값을 할당하기 위해 먼저 스코프 체인을 통해 선언된 변수인지 확인한다. 이때 foo 함수의 스코프와 전역 스코프 어디에서도 y 변수의 선언을 찾을 수 없으므로 참조 에러가 발생한다. <span class="not_sure">하지만 자바스크립트 엔진은 y = 20을 window.y = 20으로 해석하여 전역 객체에 프로퍼티를 동적 생성한다.</span> 결국 y는 전역 객체의 프로퍼티가 되어 마치 전역 변수처럼 동작한다. 이러한 현상을 암묵적 전역이라 한다.
+                    </p>
+                    <p>
+                        하지만 y는 변수 선언 없이 단지 전역 객체의 프로퍼티로 추가되었을 뿐이다. 따라서 y는 변수가 아니다. y는 변수가 아니므로 변수 호이스팅이 발생하지 않는다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // 전역 변수 x는 호이스팅이 발생한다.
+                            console.log(x); // undefined
+                            // 전역 변수가 아니라 단지 전역 객체의 프로퍼티인 y는 호이스팅이 발생하지 않는다.
+                            console.log(y); // ReferenceError: y is not defined
+
+                            var x = 10; // 전역 변수
+
+                            function foo() {
+                                // 선언하지 않은 식별자에 값을 할당
+                                y = 20; // window.y = 20;
+                            }
+                            foo();
+
+                            console.log(x + y); // 30
+                        </code>
+                    </pre>
+                    <p>
+                        또한 변수가 아니라 단지 프로퍼티인 y는 delete 연산자로 삭제할 수 있다. 전역 변수는 프로퍼티이지만 delete 연산자로 삭제할 수 없다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var x = 10; // 전역 변수
+
+                            function foo() {
+                                // 선언하지 않은 식별자에 값을 할당
+                                y = 20;
+                                console.log(x + y); // 30
+                            }
+                            foo();
+
+                            console.log(window.x); // 10
+                            console.log(window.y); // 20
+
+                            delete x; // 전역 변수는 삭제되지 않는다.
+                            delete y; // 프로퍼티는 삭제된다.
+
+                            console.log(window.x); // 10
+                            console.log(window.y); // undefined
+                        </code>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
