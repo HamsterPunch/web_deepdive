@@ -50,9 +50,263 @@
                         foo(); // window;
 
                         // 2. 메서드 호출
-                        
+                        // foo 함수를 프로퍼티 값으로 할당하여 호출. foo 함수 내부의 this는 메서드를 호출한 객체 obj를 가리킨다.
+                        const obj = { foo };
+                        obj.foo(); // obj
+
+                        // 3. 생성자 함수 호출
+                        // foo 함수를 new 연산자와 함께 생성자 함수로 호출. foo 함수 내부의 this는 생성자 함수가 생성한 인스턴스를 가리킨다.
+                        new foo(); // foo {}
+
+                        // 4. Function.prototype.apply/call/bind 메서드에 의한 간접 호출
+                        // foo 함수 내부의 this는 인수에 의해 결정된다.
+                        const bar = { name: 'bar' };
+                        foo.call(bar); // bar
+                        foo.apply(bar); // bar
+                        foo.bind(bar)(); // bar
                     </code>
                 </pre>
+                <div class="sub_article">
+                    <p>
+                        기본적으로 this에는 전역 객체가 바인딩된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            function foo() {
+                                console.log("foo's this: ", this); // window
+                                function bar() {
+                                    console.log("bar's this: ", this); // window
+                                }
+                                bar();
+                            }
+                            foo();
+                        </code>
+                    </pre>
+                    <p>
+                        위 예제처럼 전역 함수는 물론이고 중첩 함수를 일반 함수로 호출하면 함수 내부의 this에는 전역 객체가 바인딩된다. 다만 this는 객체의 프로퍼티나 메서드를 참조하기 위한 자기 참조 변수이므로 객체를 생성하지 않은 일반 함수에서 this는 의미가 없다. 따라서 다음 예제처럼 strict mode가 적용된 일반 함수 내부의 this에는 undefined가 바인딩된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            function foo() {
+                                'use strict';
+
+                                console.log("foo's this: ", this); // undefined
+                                function bar() {
+                                    console.log("bar's this: ", this); // undefined
+                                }
+                                bar();
+                            }
+                            foo();
+                        </code>
+                    </pre>
+                    <p>
+                        메서드 내에서 정의한 중첩 함수도 일반 함수로 호출되면 중첩 함수 내부의 this에는 전역 객체가 바인딩된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // var 키워드로 선언한 전역 변수 value는 전역 객체의 프로퍼티다.
+                            var value = 1;
+                            // const 키워드로 선언한 전역 변수 value는 전역 객체의 프로퍼티가 아니다.
+
+                            const obj = {
+                                value: 100,
+                                foo() {
+                                    console.log("foo's this: ", this); // {value: 100, foo: f}
+                                    console.log("foo's this.value: ", this.value); // 100
+
+                                    // 메서드 내에서 정의한 중첩 함수
+                                    function bar() {
+                                        console.log("bar's this: ", this); // window
+                                        console.log("bar's this.value: ", this.value); // 1
+                                    }
+
+                                    // 메서드 내에서 정의한 중첩 함수도 일반 함수로 호출되면 중첩 함수 내부의 this에는 전역 객체가 바인딩된다.
+                                    bar();
+                                }
+                            };
+
+                            obj.foo();
+                        </code>
+                    </pre>
+                    <p>
+                        콜백 함수가 일반 함수로 호출된다면 콜백 함수 내부의 this에도 전역 객체가 바인딩된다. 어떠한 함수라도 일반 함수로 호출되면 this에 전역 객체가 바인딩된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var value = 1;
+
+                            const obj = {
+                                value: 100,
+                                foo() {
+                                    console.log("foo's this: ", this); // {value: 100, foo: f}
+                                    // 콜백 함수 내부의 this에는 전역 객체가 바인딩된다.
+                                    setTimeout(function() {
+                                        console.log("callback's this: ", this); // window
+                                        console.log("callback's this.value: ", this.value); // 1
+                                    }, 100)
+                                }
+                            }
+
+                            obj.foo();
+                        </code>
+                    </pre>
+                    <p>
+                        이처럼 일반 함수로 호출된 모든 함수(중첩 함수, 콜백 함수 포함) 내부의 this에는 전역 객체가 바인딩된다.
+                    </p>
+                    <p>
+                        하지만 메서드 내에서 정의한 중첩 함수 또는 메서드에게 전달한 콜백 함수(보조 함수)가 일반 함수로 호출될 때 메서드 내의 중첩 함수 또는 콜백 함수의 this가 전역 객체를 바인딩하는 것은 문제가 있다. 중첩 함수 또는 콜백 함수는 외부 함수를 돕는 헬퍼 함수의 역할을 하므로 외부 함수의 일부 로직을 대신하는 경우가 대부분이다. 하지만 외부 함수인 메서드와 중첩 함수 또는 콜백 함수의 this가 일치하지 않는다는 것은 중첩 함수 또는 콜백 함수를 헬퍼 함수로 동작하기 어렵게 만든다.
+                    </p>
+                    <p>
+                        메서드 내부의 중첩 함수나 콜백 함수의 this 바인딩을 메서드의 this 바인딩과 일치시키기 위한 방법은 다음과 같다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var value = 1;
+
+                            const obj = {
+                                value: 100,
+                                foo() {
+                                    // this 바인딩을 변수 that에 할당한다.
+                                    const that = this; // {value: 100, foo: f}
+
+                                    // 콜백 함수 내부에서 this 대신 that을 참조한다.
+                                    setTimeout(function() {
+                                        console.log(that.value); // 100
+                                    }, 100)
+                                }
+                            };
+
+                            obj.foo();
+                        </code>
+                    </pre>
+                    <p>
+                        위 방법 이외에도 자바스크립트는 this를 명시적으로 바인딩할 수 있는 Function.prototype.apply, Function.prototype.call, Function.prototype.bind 메서드를 제공한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var value = 1;
+
+                            const obj = {
+                                value: 100,
+                                foo() {
+                                    // 콜백 함수에 명시적으로 this를 바인딩한다.
+                                    setTimeout(function() {
+                                        console.log(this.value); // 100
+                                    }.bind(this), 100);
+                                }
+                            };
+
+                            obj.foo();
+                        </code>
+                    </pre>
+                    <p>
+                        Function.prototype.apply/call/bind 메서드에 대해서는 22.2.4절 "Function.prototype.apply/call/bind 메서드에 의한 간접 호출"에서 살펴보도록 하자.
+                    </p>
+                    <p>
+                        또는 화살표 함수를 사용해서 this 바인딩을 일치시킬 수도 있다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            var value = 1;
+
+                            const obj = {
+                                value: 100,
+                                foo() {
+                                    // 화살표 함수 내부의 this는 상위 스코프의 this를 가리킨다.
+                                    setTimeout(() => console.log(this.value), 100); // 100
+                                }
+                            };
+
+                            obj.foo();
+                        </code>
+                    </pre>
+                    <p>
+                        화살표 함수에 대해서는 26.3절 "화살표 함수"에서 자세히 살펴보자.
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        메서드 내부의 this에는 메서드를 호출한 객체, 즉 메서드를 호출할 때 메서드 이름 앞의 마침표 연산자 앞에 기술된 객체가 바인딩된다. 주의할 것은 메서드 내부의 this는 메서드를 소유한 객체가 아닌 메서드를 호출한 객체에 바인딩된다는 것이다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const person = {
+                                name: 'Lee',
+                                getName() {
+                                    // 메서드 내부의 this는 메서드를 호출한 객체에 바인딩된다.
+                                    return this.name;
+                                }
+                            };
+
+                            // 메서드 getName을 호출한 객체는 person이다.
+                            console.log(person.getName()); // Lee
+                        </code>
+                    </pre>
+                    <p>
+                        위 예제의 getName 메서드는 person 객체의 메서드로 정의되었다. 메서드는 프로퍼티에 바인딩된 함수다. 즉, person 객체의 getName 프로퍼티가 가리키는 함수 객체는 person 객체에 포함된 것이 아니라 독립적으로 존재하는 별도의 객체다. getName 프로퍼티가 함수 객체를 가리키고 있을 뿐이다.
+                    </p>
+                    <p>
+                        따라서 getName 프롷퍼티가 가리키는 함수 객체, 즉 getName 메서드는 다른 객체의 프로퍼티에 할당하는 것으로 다른 객체의 메서드가 될 수도 있고 일반 변수에 할당하여 일반 함수로 호출될 수도 있다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const anotherPerson = {
+                                name: 'Kim'
+                            };
+
+                            // getName 메서드를 anotherPerson 객체의 메서드로 할당
+                            anotherPerson.getName = person.getName;
+
+                            // getName 메서드를 호출한 객체는 anotherPerson이다.
+                            console.log(anotherPerson.getName()); // Kim
+
+                            // getName 메서드를 변수에 할당
+                            const getName = person.getName;
+
+                            // getName 메서드를 일반 함수로 호출
+                            console.log(getName()); // ''
+                            // 일반 함수로 호출된 getName 함수 내부의 this.name은 브라우저 환경에서 window.name과 같다.
+                            // 브라우저 환경에서 window.name은 브라우저 창의 이름을 나타내는 빌트인 프로퍼티이며 기본값은 ''이다.
+                        </code>
+                    </pre>
+                    <p>
+                        따라서 메서드 내부의 this는 프로퍼티로 메서드를 가리키고 있는 객체와는 관계가 없고 메서드를 호출한 객체에 바인딩된다.
+                    </p>
+                    <p>
+                        프로토타입 메서드 내부에서 사용된 this도 일반 메서드와 마찬가지로 해당 메서드를 호출한 객체에 바인딩된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            function Person(name) {
+                                this.name = name;
+                            }
+
+                            Person.prototype.getName = function() {
+                                return this.name;
+                            };
+
+                            const me = new Person('Lee');
+
+                            // getName 메서드를 호출한 객체는 me다.
+                            console.log(me.getName()); // Lee
+
+                            Person.prototype.name = 'Kim';
+
+                            // getName 메서드를 호출한 객체는 Person.prototype이다.
+                            console.log(Person.prototype.getName()); // Kim
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        생성자 함수 내부의 this에는 생성자 함수가 (미래에) 생성할 인스턴스가 바인딩된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            
+                        </code>
+                    </pre>
+                </div>
             </div>
         </div>
     </body>
