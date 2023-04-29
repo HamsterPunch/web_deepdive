@@ -8,24 +8,71 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
         <!-- title -->
-        <title></title>
+        <title>실행 컨텍스트 | 실행 컨텍스트 스택</title>
     </head>
     <body>
         <!-- header -->
         <header class="header">
             <nav class="navigation">
-                <a href="">이전</a>
+                <a href="./03.html">이전</a>
                 <a href="">홈</a>
-                <a href="">다음</a>
+                <a href="./05.html">다음</a>
             </nav>
         </header>
 
         <!-- content -->
         <div class="page_content">
-            <h2></h2>
+            <h2>실행 컨텍스트 | 실행 컨텍스트 스택</h2>
 
             <div class="article">
-                
+                <p>
+                    다음 예제를 살펴보자.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const x = 1;
+
+                        function foo() {
+                            const y = 2;
+
+                            function bar() {
+                                const z = 3;
+                                console.log(x + y + z); // 6
+                            }
+                            bar();
+                        }
+
+                        foo();
+                    </code>
+                </pre>
+                <p>
+                    위 예제는 소스코드의 타입으로 분류할 때 전역 코드와 함수 코드로 이루어져 있다. 자바스크립트 엔진은 먼저 전역 코드를 평가하여 전역 실행 컨텍스트를 생성한다. 그리고 함수가 호출되면 함수 코드를 평가하여 함수 실행 컨텍스트를 생성한다.
+                </p>
+                <p>
+                    이때 생성된 실행 컨텍스트는 스택 자료구조로 관리된다. 이를 실행 컨텍스트 스택이라고 부른다.
+                </p>
+                <p>
+                    위 코드를 실행하면 코드가 실행되는 시간의 흐름에 따라 실행 컨텍스트 스택에는 다음과 같이 실행 컨텍스트가 추가되고 제거된다.
+                </p>
+                <p>
+                    <ol>
+                        <li>
+                            자바스크립트 엔진은 먼저 전역 코드를 평가하여 전역 실행 컨텍스트를 생성하고 실행 컨텍스트 스택에 푸시한다. 이때 전역 변수 x와 전역 함수 foo는 전역 실행 컨텍스트에 등록된다. 이후 전역 코드가 실행되기 시작하여 전역 변수 x에 값이 할당되고 전역 함수 foo가 호출된다.
+                        </li>
+                        <li>
+                            전역 함수 foo가 호출되면 전역 코드의 실행은 일시 중단되고 코드의 제어권이 foo 함수 내부로 이동한다. 자바스크립트 엔진은 foo 함수 내부의 함수 코드를 평가하여 foo 함수 실행 컨텍스트를 생성하고 실행 컨텍스트 스택에 푸시한다. 이때 foo 함수의 지역 변수 y와 중첩 함수 bar가 foo 함수 실행 컨텍스트에 등록된다. 이후 foo 
+                        </li>
+                        <li>
+                            
+                        </li>
+                        <li>
+                            
+                        </li>
+                        <li>
+                            
+                        </li>
+                    </ol>
+                </p>
             </div>
         </div>
     </body>
