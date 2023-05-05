@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>클래스 | 인스턴스 생성</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./03.html">이전</a>
+                <a href="">홈</a>
+                <a href="./05.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>25.4 인스턴스 생성</h2>
+
+            <div class="article">
+                <p>
+                    클래스는 생성자 함수이며 new 연산자와 함께 호출되어 인스턴스를 생성한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        class Person {}
+
+                        // 인스턴스 생성
+                        const me = new Person();
+                        console.log(me); // Person {}
+                    </code>
+                </pre>
+                <p>
+                    함수는 new 연산자의 사용 여부에 따라 일반 함수로 호출되거나 인스턴스 생성을 위한 생성자 함수로 호출되지만 클래스는 인스턴스를 생성하는 것이 유일한 존재 이유이므로 반드시 new 연산자와 함께 호출해야 한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        class Person {}
+
+                        // 클래스를 new 연산자 없이 호출하면 타입 에러가 발생한다.
+                        const me = Person();
+                        // TypeError: Class constructor Foo cannot be invoked without 'new'
+                    </code>
+                </pre>
+                <p>
+                    클래스 표현식으로 정의된 클래스의 경우 다음 예제와 같이 클래스를 가리키는 식별자를 사용해 인스턴스를 생성하지 않고 기명 클래스 표현식의 클래스 이름을 사용해 인스턴스를 생성하면 에러가 발생한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const Person = class MyClass {};
+
+                        // 함수 표현식과 마찬가지로 클래스를 가리키는 식별자로 인스턴스를 생성해야 한다.
+                        const me = new Person();
+
+                        // 클래스 이름 MyClass는 함수와 동일하게 클래스 몸체 내부에서만 유효한 식별자다.
+                        console.log(MyClass); // ReferenceError: MyClass is not defined
+
+                        const you = new MyClass(); // ReferenceError: MyClass is not defined
+                    </code>
+                </pre>
+                <p>
+                    이는 기명 함수 표현식과 마찬가지로 클래스 표현식에서 사용한 클래스 이름은 외부 코드에서 접근 불가능하기 때문이다.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

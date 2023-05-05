@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>클래스 | 클래스 정의</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./01.html">이전</a>
+                <a href="">홈</a>
+                <a href="./03.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>25.2 클래스 정의</h2>
+
+            <div class="article">
+                <p>
+                    클래스는 class 키워드를 사용하여 정의한다. 클래스 이름은 생성자 함수와 마찬가지로 파스칼 케이스를 사용하는 것이 일반적이다. 파스칼 케이스를 사용하지 않아도 에러가 발생하지는 않는다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 클래스 선언문
+                        class Person {}
+                    </code>
+                </pre>
+                <p>
+                    일반적이지는 않지만 함수와 마찬가지로 표현식으로 클래스를 정의할 수도 있다. 이때 클래스는 함수와 마찬가지로 이름을 가질 수도 있고, 갖지 않을 수도 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 익명 클래스 표현식
+                        const Person = class {};
+
+                        // 기명 클래스 표현식
+                        const Person = class MyClass {};
+                    </code>
+                </pre>
+                <p>
+                    클래스를 표현식으로 정의할 수 있다는 것은 클래스가 값으로 사용할 수 있는 일급 객체라는 것을 의미한다. 즉, 클래스는 일급 객체로서 다음과 같은 특징을 갖는다.
+                    <ul>
+                        <li>무명의 리터럴로 생성할 수 있다. 즉, 런타임에 생성이 가능하다.</li>
+                        <li>변수나 자료구조(객체, 배열 등)에 저장할 수 있다.</li>
+                        <li>함수의 매개변수에게 전달할 수 있다.</li>
+                        <li>함수의 반환값으로 사용할 수 있다.</li>
+                    </ul>
+                </p>
+                <p>
+                    좀 더 자세히 말하자면 클래스는 함수다. 따라서 클래스는 값처럼 사용할 수 있는 일급 객체다.
+                </p>
+                <p>
+                    클래스 몸체에는 0개 이상의 메서드만 정의할 수 있다. 클래스 몸체에서 정의할 수 있는 메서드는 constructor, 프로토타입 메서드, 정적 메서드의 세 가지가 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 클래스 선언문
+                        class Person {
+                            // 생성자
+                            constructor(name) {
+                                // 인스턴스 생성 및 초기화
+                                this.name = name; // name 프로퍼티는 public하다.
+                            }
+
+                            // 프로토타입 메서드
+                            sayHi() {
+                                console.log(`Hi! My name is ${this.name}`);
+                            }
+
+                            // 정적 메서드
+                            static sayHello() {
+                                console.log('Hello!');
+                            }
+                        }
+
+                        // 인스턴스 생성
+                        const me = new Person('Lee');
+
+                        // 인스턴스의 프로퍼티 참조
+                        console.log(me.name); // Lee
+                        // 프로토타입 메서드 호출
+                        me.sayHi(); // Hi! My name is Lee
+                        // 정적 메서드 호출
+                        Person.sayHello(); // Hello!
+                    </code>
+                </pre>
+                <p>
+                    이처럼 클래스와 생성자 함수의 정의 방식은 형태적인 면에서 매우 유사하다.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

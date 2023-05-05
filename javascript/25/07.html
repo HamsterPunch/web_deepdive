@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>클래스 | 프로퍼티</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./06.html">이전</a>
+                <a href="">홈</a>
+                <a href="./08.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>25.7 프로퍼티</h2>
+
+            <div class="article">
+                <div class="sub_article">
+                    <p>
+                        인스턴스 프로퍼티는 constructor 내부에서 정의해야 한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                constructor(name) {
+                                    // 인스턴스 프로퍼티
+                                    this.name = name;
+                                }
+                            }
+
+                            const me = new Person('Lee');
+                            console.log(me); // Person {name: 'Lee'}
+                        </code>
+                    </pre>
+                    <p>
+                        25.6절 "클래스의 인스턴스 생성 과정"에서 살펴보았듯이 constructor 내부 코드가 실행되기 이전에 constructor 내부의 this에는 이미 클래스가 암묵적으로 생성한 인스턴스인 빈 객체가 바인딩되어 있다.
+                    </p>
+                    <p>
+                        생성자 함수에서 생성자 함수가 생성할 인스턴스의 프로퍼티를 정의하는 것과 마찬가지로 constructor 내부에서 this에 인스턴스 프로퍼티를 추가한다. 이로써 클래스가 암묵적으로 생성한 빈 객체, 즉 인스턴스에 프로퍼티가 추가되어 인스턴스가 초기화된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                constructor(name) {
+                                    // 인스턴스 프로퍼티
+                                    this.name = name; // name 프로퍼티는 public하다.
+                                }
+                            }
+
+                            const me = new Person('Lee');
+
+                            // name은 public하다.
+                            console.log(me.name); // Lee
+                        </code>
+                    </pre>
+                    <p>
+                        constructor 내부에서 this에 추가한 프로퍼티는 언제나 클래스가 생성한 인스턴스의 프로퍼티가 된다. ES6의 클래스는 다른 객체지향 언어처럼 private, public, protected 키워드와 같은 접근 제한자를 지원하지 않는다. 따라서 인스턴스 프로퍼티는 언제나 public하다. 다행히도 private한 프로퍼티를 정의할 수 있는 사양이 현재 제안 중에 있다.
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        16.3.2절 "접근자 프로퍼티"에서 살펴보았듯이 접근자 프로퍼티는 자체적으로 값([[Value]] 내부 슬롯)을 갖지 않고 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 사용하는 접근자 함수로 구성된 프로퍼티다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const Person = {
+                                // 데이터 프로퍼티
+                                firstName: 'Ungmo',
+                                lastName: 'Lee',
+
+                                // fullName은 접근자 함수로 구성된 접근자 프로퍼티다.
+                                // getter 함수
+                                get fullName() {
+                                    return `${this.firstName} ${this.lastName}`;
+                                },
+                                // setter 함수
+                                set fullName(name) {
+                                    // 배열 디스트럭처링 할당
+                                    [this.firstName, this.lastName] = name.split(' ');
+                                }
+                            };
+
+                            // 데이터 프로퍼티를 통한 프로퍼티 값의 참조
+                            console.log(`${person.firstName} ${person.lastName}`); // Ungmo Lee
+
+                            // 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+                            // 접근자 프로퍼티 fullName에 값을 저장하면 setter 함수가 호출된다.
+                            person.fullName = 'Heegun Lee';
+                            console.log(person); // {firstName: 'Heegun', lastName: 'Lee'}
+
+                            // 접근자 프로퍼티를 통한 프로퍼티 값의 참조
+                            // 접근자 프로퍼티 fullName에 접근하면 getter 함수가 호출된다.
+                            console.log(person.fullName); // Heegun Lee
+
+                            // fullName은 접근자 프로퍼티다.
+                            // 접근자 프로퍼티는 get, set, enumerable, configurable 프로퍼티 어트리뷰트를 갖는다.
+                            console.log(Object.getOwnPropertyDescriptor(person, 'fullName'));
+                            // {get: f, set: f, enumerable: true, configurable: true}
+                        </code>
+                    </pre>
+                    <p>
+                        접근자 프로퍼티는 클래스에서도 사용할 수 있다. 위 예제의 객체 리터럴을 클래스로 표현하면 다음과 같다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                constructor(firstName, lastName) {
+                                    this.firstName = firstName;
+                                    this.lastName = lastName;
+                                }
+
+                                // fullName은 접근자 함수로 구성된 접근자 프로퍼티다.
+                                // getter 함수
+                                get fullName() {
+                                    return `${this.firstName} ${this.lastName}`;
+                                }
+
+                                // setter 함수
+                                set fullName(name) {
+                                    [this.firstName, this.lastName] = name.split(' ');
+                                }
+                            }
+
+                            const me = new Person('Ungmo', 'Lee');
+
+                            // 데이터 프로퍼티를 통한 프로퍼티 값의 참조
+                            console.log(`${me.firstName} ${me.lastName}`); // Ungmo Lee
+
+                            // 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+                            // 접근자 프로퍼티 fullName에 값을 저장하면 setter 함수가 호출된다.
+                            me.fullName = 'Heegun Lee';
+                            console.log(me); // {firstName: 'Heegun', lastName: 'Lee'}
+
+                            // 접근자 프로퍼티를 통한 프로퍼티 값의 참조
+                            // 접근자 프로퍼티 fullName에 접근하면 getter 함수가 호출된다.
+                            console.log(me.fullName); // Heegun Lee
+
+                            // fullName은 접근자 프로퍼티다.
+                            // 접근자 프로퍼티는 get, set, enumerable, configurable 프로퍼티 어트리뷰트를 갖는다.
+                            console.log(Object.getOwnPropertyDescriptor(Person.prototype, 'fullName'));
+                            // {get: f, set: f, enumerable: false, configurable: true}
+                        </code>
+                    </pre>
+                    <p>
+                        접근자 프로퍼티는 자체적으로 값을 갖지 않고 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 사용하는 접근자 함수, 즉 getter 함수와 setter 함수로 구성되어 있다.
+                    </p>
+                    <p>
+                        getter는 인스턴스 프로퍼티에 접근할 때마다 프로퍼티 값을 조작하거나 별도의 행위가 필요할 때 사용한다. getter는 메서드 이름 앞에 get 키워드를 사용해 정의한다. setter는 인스턴스 프로퍼티에 값을 할당할 때마다 프로퍼티 값을 조작하거나 별도의 향위가 필요할 때 사용한다. setter는 메서드 이름 앞에 set 키워드를 사용해 정의한다.
+                    </p>
+                    <p>
+                        이때 getter와 setter 이름은 인스턴스 프로퍼티처럼 사용된다. 다시 말해 getter는 호출하는 것이 아니라 프로퍼티처럼 참조하는 형식으로 사용하며, 참조 시에 내부적으로 getter가 호출된다. setter도 호출하는 것이 아니라 프로퍼티처럼 값을 할당하는 형식으로 사용하며, 할당 시에 내부적으로 setter가 호출된다.
+                    </p>
+                    <p>
+                        getter는 이름 그대로 무언가를 취득할 때 사용하므로 반드시 무언가를 반환해야 하고 setter는 무언가를 프로퍼티에 할당해야 할 때 사용하므로 반드시 매개변수가 있어야 한다. setter는 단 하나의 값만 할당받기 때문에 단 하나의 매개변수만 선언할 수 있다.
+                    </p>
+                    <p>
+                        클래스의 메서드는 기본적으로 프로토타입 메서드가 된다. 따라서 클래스의 접근자 프로퍼티 또한 인스턴스 프로퍼티가 아닌 프로토타입의 프로퍼티가 된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            Object.getOwnPropertyNames(me); // ['firstName', 'lastName']
+                            Object.getOwnPropertyNames(Object.getPrototypeOf(me)); // ['constructor', 'fullName']
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        먼저 클래스 필드가 무엇인지 살펴보자. 클래스 필드(필드 또는 멤버)는 클래스 기반 객체지향 언어에서 클래스가 생성할 인스턴스의 프로퍼티를 가리키는 용어다.
+                    </p>
+                    <p>
+                        그런데 자바스크립트의 클래스 몸체에는 메서드만 선언할 수 있다. 따라서 클래스 몸체에 자바와 유사하게 클래스 필드를 선언하면 문법 에러가 발생한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // 클래스 필드 정의
+                                name = 'Lee';
+                            }
+
+                            const me = new Person('Lee');
+                        </code>
+                    </pre>
+                    <p>
+                        하지만 위 예제를 최신 브라우저(Chrome 72 이상) 또는 최신 Node.js(버전 12 이상)에서 실행하면 문법 에러가 발생하지 않고 정상 동작한다. 그 이유를 살펴보자.
+                    </p>
+                    <p>
+                        그 이유는 자바스크립트에서도 인스턴스 프로퍼티를 마치 클래스 기반 객체지향 언어의 클래스 필드처럼 정의할 수 있는 새로운 표준 사양인 "Class field declaration"가 2021년 1월 현재, TC39 프로세스의 stage3에 제안되어 있기 때문이다.
+                    </p>
+                    <p>
+                        클래스 몸체에서 클래스 필드를 정의할 수 있는 클래스 필드 정의 제안은 아직 ECMASCript의 정식 표준 사양으로 승급되지 않았다. 하지만 최신 브라우저와 최신 Node.js는 표준 사양으로 승급이 확실시되는 이 제안을 선제적으로 미리 구현해 놓았다. 따라서 최신 브라우저와 최신 Node.js에서는 다음과 같이 클래스 필드를 클래스 몸체에 정의할 수 있다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // 클래스 필드 정의
+                                name = 'Lee';
+                            }
+
+                            const me = new Person();
+                            console.log(me); // Person {name: 'Lee'}
+                        </code>
+                    </pre>
+                    <p>
+                        클래스 몸체에서 클래스 필드를 정의하는 경우 this에 클래스 필드를 바인딩해서는 안된다. this는 클래스의 constructor와 메서드 내에서만 유효하다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // this에 클래스 필드를 바인딩해서는 안된다.
+                                this.name = ''; // SyntaxError: Unexpected token '.'
+                            }
+                        </code>
+                    </pre>
+                    <p>
+                        
+                    </p>
+                </div>
+                <div class="sub_article">
+                    
+                </div>
+                <div class="sub_article">
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

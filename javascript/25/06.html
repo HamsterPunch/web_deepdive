@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>클래스 | 클래스의 인스턴스 생성 과정</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./05.html">이전</a>
+                <a href="">홈</a>
+                <a href="./07.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>25.6 클래스의 인스턴스 생성 과정</h2>
+
+            <div class="article">
+                <p>
+                    new 연산자와 함께 클래스를 호출하면 생성자 함수와 마찬가지로 클래스의 내부 메서드 [[Construct]]가 호출된다. 클래스는 new 연산자 없이 호출할 수 없다. 이때 17.2.3절 "생성자 함수의 인스턴스 생성 과정"에서 살펴본 바와 유사하게 다음과 같은 과정을 거쳐 인스턴스가 생성된다.
+                    <ol>
+                        <li>
+                            인스턴스 생성과 this 바인딩<br>
+                            new 연산자와 함께 클래스를 호출하면 constructor의 내부 코드가 실행되기에 앞서 암묵적으로 빈 객체가 생성된다. 이 빈 객체가 바로 (아직 완성되지는 않았지만) 클래스가 생성한 인스턴스다. 이때 클래스가 생성한 인스턴스의 프로토타입으로 클래스의 prototype 프로퍼티가 가리키는 객체가 설정된다. 그리고 암묵적으로 생성된 빈 객체, 즉 인스턴스는 this에 바인딩된다. 따라서 constructor 내부의 this는 클래스가 생성한 인스턴스를 가리킨다.
+                        </li>
+                        <li>
+                            인스턴스 초기화<br>
+                            constructor의 내부 코드가 실행되어 this에 바인딩되어 있는 인스턴스를 초기화한다. 즉, this에 바인딩되어 있는 인스턴스에 프로퍼티를 추가하고 constructor가 인수로 전달받은 초기값으로 인스턴스의 프로퍼티 값을 초기화한다. 만약 constructor가 생략되었다면 이 과정도 생략된다.
+                        </li>
+                        <li>
+                            인스턴스 반환<br>
+                            클래스의 모든 처리가 끝나면 완성된 인스턴스가 바인딩된 this가 암묵적으로 반환된다.
+                        </li>
+                    </ol>
+                </p>
+                <pre>
+                    <code class="javascript">
+                        class Person {
+                            // 생성자
+                            constructor(name) {
+                                // 1. 암묵적으로 인스턴스가 생성되고 this에 바인딩된다.
+                                console.log(this); // Person {}
+                                console.log(Object.getPrototypeOf(this) === Person.prototype); true
+
+                                // 2. this에 바인딩되어 있는 인스턴스를 초기화한다.
+                                this.name = name;
+
+                                // 3. 완성된 인스턴스가 바인딩된 this가 암묵적으로 반환된다.
+                            }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>
