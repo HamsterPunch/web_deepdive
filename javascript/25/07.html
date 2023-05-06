@@ -222,14 +222,218 @@
                         </code>
                     </pre>
                     <p>
-                        
+                        클래스 필드를 참조하는 경우 자바와 같은 클래스 기반 객체지향 언어에서는 this를 생략할 수 있으나 자바스크립트에서는 반드시 this를 사용해야 한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // 클래스 필드
+                                name = 'Lee';
+
+                                constructor() {
+                                    console.log(name); // ReferenceError: name is not defined
+                                }
+                            }
+
+                            new Person();
+                        </code>
+                    </pre>
+                    <p>
+                        클래스 필드에 초기값을 할당하지 않으면 undefined를 갖는다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // 클래스 필드를 초기화하지 않으면 undefined를 갖는다.
+                                name;
+                            }
+
+                            const me = new Person();
+                            console.log(me); // Person {name: undefined}
+                        </code>
+                    </pre>
+                    <p>
+                        인스턴스를 생성할 때 외부의 초기값으로 클래스 필드를 초기화해야 할 필요가 있다면 constructor에서 클래스 필드를 초기화해야 한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                name;
+
+                                constructor(name) {
+                                    this.name = name;
+                                }
+                            }
+
+                            const me = new Person('Lee');
+                            console.log(me); // Person {name: 'Lee'}
+                        </code>
+                    </pre>
+                    <p>
+                        이처럼 인스턴스를 생성할 때 클래스 필드를 초기화할 필요가 있다면 constructor 밖에서 클래스 필드를 정의할 필요가 없다. 클래스 필드를 초기화할 필요가 있다면 어차피 constructor 내부에서 클래스 필드를 참조하여 초기값을 할당해야 한다. 이때 this, 즉 클래스가 생성한 인스턴스에 클래스 필드에 해당하는 프로퍼티가 없다면 자동 추가되기 때문이다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                constructor(name) {
+                                    this.name = name;
+                                }
+                            }
+
+                            const me = new Person();
+                            console.log(me); // Person {name: 'Lee'}
+                        </code>
+                    </pre>
+                    <p>
+                        함수는 일급 객체이므로 함수를 클래스 필드에 할당할 수 있다. 따라서 클래스 필드를 통해 메서드를 정의할 수도 있다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // 클래스 필드에 문자열을 할당
+                                name = 'Lee';
+
+                                // 클래스 필드에 함수를 할당
+                                getName = function() {
+                                    return this.name;
+                                }
+
+                                // 화살표 함수로 정의할 수도 있다.
+                                // getName = () => this.name;
+                            }
+
+                            const me = new Person();
+                            console.log(me); Person {name: 'Lee', getName: f}
+                            console.log(me.getName()); Lee
+                        </code>
+                    </pre>
+                    <p>
+                        이처럼 클래스 필드에 함수를 할당하는 경우, 이 함수는 프로토타입 메서드가 아닌 인스턴스 메서드가 된다. 모든 클래스 필드는 인스턴스 프로퍼티가 되기 때문이다. 따라서 클래스 필드에 함수를 할당하는 것은 권장하지 않는다.
+                    </p>
+                    <p>
+                        클래스 필드 정의 제안으로 인해 인스턴스 프로퍼티를 정의하는 방식은 두 가지가 되었다. 인스턴스를 생성할 때 외부 초기값으로 클래스 필드를 초기화할 필요가 있다면 constructor에서 인스턴스 프로퍼티를 정의하는 기존 방식을 사용하고, 인스턴스를 생성할 때 외부 초기값으로 클래스 필드를 초기화할 필요가 없다면 기존의 constructor에서 인스턴스 프로퍼티를 정의하는 방식과 클래스 필드 정의 제안 모두 사용할 수 있다.
                     </p>
                 </div>
                 <div class="sub_article">
-                    
+                    <p>
+                        <span class="not_sure">24.5절 "캡슐화와 정보 은닉"에서 살펴보았듯이 자바스크립트는 캡슐화를 완전하게 지원하지 않는다.</span> ES6의 클래스도 생성자 함수와 마찬가지로 다른 클래스 기반 객체지향 언어에서는 지원하는 private, public, protected 키워드와 같은 접근 제한자를 지원하지 않는다. 따라서 인스턴스 프로퍼티는 인스턴스를 통해 클래스 외부에서 언제나 참조할 수 있다. 즉, 언제나 public이다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                constructor(name) {
+                                    this.name = name;
+                                }
+                            }
+
+                            const me = new Person('Lee');
+                            console.log(me.name);
+                        </code>
+                    </pre>
+                    <p>
+                        클래스 필드 정의 제안을 사용하더라도 클래스 필드는 기본적으로 public하기 때문에 외부에 그대로 노출된다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                name = 'Lee'; // 클래스 필드도 기본적으로 public하다.
+                            }
+
+                            // 인스턴스 생성
+                            const me = new Person();
+                            console.log(me.name); // Lee
+                        </code>
+                    </pre>
+                    <p>
+                        다행히도 2021년 1월 현재, TCP39 프로세스의 stage 3에는 private 필드를 정의할 수 있는 새로운 표준 사양이 제안되어 있다. 표준 사양으로 승급이 확실시되는 이 제안도 최신 브라우저와 최신 Node.js에 이미 구현되어 있다.
+                    </p>
+                    <p>
+                        다음 예제를 살펴보자. private 필드의 선두에는 #을 붙여준다. private 필드를 참조할 때도 #을 붙여주어야 한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // private 필드 정의
+                                #name = '';
+
+                                constructor(name) {
+                                    // private 필드 참조
+                                    this.#name = name;
+                                }
+                            }
+
+                            const me = new Person('Lee');
+
+                            // private 필드 #name은 클래스 외부에서 참조할 수 없다.
+                            console.log(me.#name);
+                            // SyntaxError: Private field '#name' must be declared in an enclosing class
+                        </code>
+                    </pre>
+                    <p>
+                        public 필드는 어디서든 참조할 수 있지만 private 필드는 클래스 내부에서만 참조할 수 있다.
+                    </p>
+                    <p>
+                        클래스 외부에서 private 필드에 직접 접근할 수 있는 방법은 없다. 다만 접근자 프로퍼티를 통해 간접적으로 접근하는 방법은 유효하다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                // private 필드 정의
+                                #name = '';
+
+                                constructor(name) {
+                                    this.#name = name;
+                                }
+
+                                // name은 접근자 프로퍼티다.
+                                get name() {
+                                    // private 필드를 참조하여 trim한 다음 반환한다.
+                                    return this.#name.trim();
+                                }
+                            }
+
+                            const me = new Person('Lee');
+                            console.log(me.name); // Lee
+                        </code>
+                    </pre>
+                    <p>
+                        private 필드는 반드시 클래스 몸체에 정의해야 한다. private 필드를 직접 constructor에 정의하면 에러가 발생한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class Person {
+                                constructor(name) {
+                                    // private 필드는 클래스 몸체에서 정의해야 한다.
+                                    this.#name = name;
+                                    // SyntaxError: Private field '#name' must be declared in an enclosing class
+                                }
+                            }
+                        </code>
+                    </pre>
                 </div>
                 <div class="sub_article">
-                    
+                    <p>
+                        25.5.3절 "정적 메서드"에서 살펴보았듯이 클래스에는 static 키워드를 사용하여 정적 메서드를 정의할 수 있다. 하지만 static 키워드를 사용하여 정적 필드를 정의할 수는 없었다. 하지만 static public 필드, static private 필드, static private 메서드를 정의할 수 있는 새로운 표준 사양인 "Static class features"가 2021년 1월 현재, TCP39 프로세스의 stage 3에 제안되어 있다. 이 제안 중에서 static public/private 필드는 2021년 1월 현재, 최신 브라우저와 최신 Node.js에 이미 구현되어 있다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            class MyMath {
+                                // static public 필드 정의
+                                static PI = 22 / 7;
+
+                                // static private 필드 정의
+                                static #num = 10;
+
+                                // static 메서드
+                                static increment() {
+                                    return ++MyMath.#num
+                                }
+                            }
+
+                            console.log(MyMath.PI); // 3.142...
+                            console.log(MyMath.increment()); // 11
+                        </code>
+                    </pre>
                 </div>
             </div>
         </div>
