@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>Date | Date 메서드</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./01.html">이전</a>
+                <a href="">홈</a>
+                <a href="./03.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>30.2 Date 메서드</h2>
+
+            <div class="article">
+                <div class="sub_article">
+                    <p>
+                        Date.now 메서드는 1970년 1월 1일 00:00:00(UTC)을 기점으로 현재 시간까지 경과한 밀리초를 숫자로 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            const now = Date.now();
+                            new Date(now); // Mon Jul 06 2020 01:03:18 GMT+0900 (대한민국 표준시)
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.parse 메서드는 1970년 1월 1일 00:00:00(UTC)을 기점으로 인수로 전달된 지정 시간까지의 밀리초를 숫자로 반환한다.
+                    </p>
+                    <pre>
+                        <code class="javascript">
+                            // UTC
+                            Date.parse('Jan 2, 1970 00:00:00 UTC'); // 86400000
+
+                            // KST
+                            Date.parse('Jan 2, 1970 09:00:00'); // 86400000
+
+                            // KST
+                            Date.parse('1970/01/02/09:00:00'); // 86400000
+                        </code>
+                    </pre>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.UTC
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getFullYear
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setFullYear
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getMonth
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setMonth
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getDate
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setDate
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getDay
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getHours
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setHours
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getMinutes
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setMinutes
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getSeconds
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setSeconds
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getMilliseconds
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setMiliseconds
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getTime
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.setTime
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.getTimezoneOffset
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.toDateString
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.toTimeString
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.toISOString
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        Date.prototype.toLocaleString
+                    </p>
+                </div>
+                <div class="sub_article">
+                    <p>
+                        DAte.prototype.toLocaleTimeString
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

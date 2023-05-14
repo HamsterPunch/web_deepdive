@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>Number | Number 생성자 함수</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="">이전</a>
+                <a href="">홈</a>
+                <a href="./02.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>28.1 Number 생성자 함수</h2>
+
+            <div class="article">
+                <p>
+                    표준 빌트인 객체인 Number 객체는 생성자 함수 객체다. 따라서 new 연산자와 함께 호출하여 Number 인스턴스를 생성할 수 있다.
+                </p>
+                <p>
+                    Number 생성자 함수에 인수를 전달하지 않고 new 연산자와 함께 호출하면 [[NumberData]] 내부 슬롯에 0을 할당한 Number 래퍼 객체를 생성한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const numObj = new Number();
+
+                        console.log(numObj); // Number { [[PrimitiveValue]]: 0 }
+                    </code>
+                </pre>
+                <p>
+                    위 예제를 크롬 브라우저의 개발자 도구에서 실행해보면 [[PrimitiveValue]]라는 접근할 수 없는 프로퍼티가 보인다. 이는 [[NumberData]] 내부 슬롯을 가리킨다. ES5에서는 [[NumberData]]를 [[PrimitiveValue]]라 불렀다.
+                </p>
+                <p>
+                    Number 생성자 함수의 인수로 숫자를 전달하면서 new 연산자와 함께 호출하면 [[NumberData]] 내부 슬롯에 인수로 전달받은 숫자를 할당한 Number 래퍼 객체를 생성한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const numObj = new Number(10);
+
+                        console.log(numObj); // Number { [[PrimitiveValue]]: 10 }
+                    </code>
+                </pre>
+                <p>
+                    Number 생성자 함수의 인수로 숫자가 아닌 값을 전달하면 인수를 숫자로 강제 변환한 후, [[NumberData]] 내부 슬롯에 변환된 숫자를 할당한 Number 래퍼 객체를 생성한다. 인수를 숫자로 변환할 수 없다면 NaN을 [[NumberData]] 내부 슬롯에 할당한 Number 래퍼 객체를 생성한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        let numObj = new Number('10');
+                        console.log(numObj); // Number { [[PrimitiveValue]]: 10 }
+
+                        numObj = new Number('Hello');
+                        console.log(numObj); // Number { [[PrimitiveValue]]: NaN }
+                    </code>
+                </pre>
+                <p>
+                    9.3 "명시적 타입 변환"에서 살펴보았듯이 new 연산자를 사용하지 않고 Number 생성자 함수를 호출하면 Number 인스턴스가 아닌 숫자를 반환한다. 이를 이용하여 명시적으로 타입을 반환하기도 한다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 문자열 타입 => 숫자 타입
+                        Number('0'); // 0
+                        Number('-1'); // -1
+                        Number('10.53'); // 10.53
+
+                        // 불리언 타입 => 숫자 타입
+                        Number(true); // 1
+                        Number(false); // 0
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>
