@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>RegExp | 정규 표현식의 생성</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./01.html">이전</a>
+                <a href="">홈</a>
+                <a href="./03.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>31.2 정규 표현식</h2>
+
+            <div class="article">
+                <p>
+                    정규 표현식 객체를 생성하기 위해서는 정규 표현식 리터럴과 RegExp 생성자 함수를 사용할 수 있다. 일반적인 방법은 정규 표현식 리터럴을 사용하는 것이다.
+                </p>
+                <p>
+                    정규 표현식 리터럴은 패턴과 플래그로 구성된다. 정규 표현식 리터럴을 사용하여 간단한 정규 표현식 객체를 생성해 보자.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const target = 'Is this all there is?';
+
+                        // 패턴: is
+                        // 플래그: i
+                        const regExp = /is/i;
+
+                        // test 메서드는 target 문자열에 대해 정규 표현식 regexp의 패턴을 검색하여 매칭 결과를 불리언 값으로 반환한다.
+                        regexp.test(target); // true
+                    </code>
+                </pre>
+                <p>
+                    RegExp 생성자 함수를 사용하여 RegExp 객체를 생성할 수도 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const target = 'Is this all there is?';
+
+                        const regexp = new RegExp(/is/i); // ES6
+                        // const regexp = new RegExp(/is/, 'i');
+                        // const regexp = new RegExp('is', 'i');
+
+                        regexp.test(target); // true
+                    </code>
+                </pre>
+                <p>
+                    RegExp 생성자 함수를 사용하면 변수를 사용해 동적으로 RegExp 객체를 생성할 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const count = (str, char) => (str.match(new RegExp(char, 'gi')) ?? []).length;
+
+                        count('Is this all there is?', 'is'); // 3
+                        count('Is this all there is?', 'xx'); // 0
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>
