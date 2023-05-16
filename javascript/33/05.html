@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>7번째 데이터 타입 Symbol | 심벌과 프로퍼티 은닉</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./04.html">이전</a>
+                <a href="">홈</a>
+                <a href="./06.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>33.5 심벌과 프로퍼티 은닉</h2>
+
+            <div class="article">
+                <p>
+                    심벌 값을 프로퍼티 키로 사용하여 생성한 프로퍼티는 for...in 문이나 Object.keys, Object.getOwnPropertyNames 메서드로 찾을 수 없다. 이처럼 심벌 값을 프로퍼티 키로 사용하여 프로퍼티를 생성하면 외부에 노출할 필요가 없는 프로퍼티를 은닉할 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const obj = {
+                            // 심벌 값으로 프로퍼티 키를 생성
+                            [Symbol('mySymbol')]: 1
+                        };
+
+                        for (const key in obj) {
+                            console.log(key); // 아무것도 출력되지 않는다.
+                        }
+
+                        console.log(Object.keys(obj)); // []
+                        console.log(Object.getOwnPropertyNames(obj)); // []
+                    </code>
+                </pre>
+                <p>
+                    하지만 프로퍼티를 완전하게 숨길 수 있는 것은 아니다. ES6에서 도입된 Object.getOwnPropertySymbols 메서드를 사용하면 심벌 값을 프로퍼티 키로 사용하여 생성한 프로퍼티를 찾을 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        const obj = {
+                            [Symbol('mySymbol')]: 1
+                        };
+
+                        console.log(Object.getOwnPropertySymbols(obj)); // [Symbol(mySymbol)]
+
+                        const symbolKey1 = Object.getOwnPropertySymbols(obj)[0];
+                        console.log(symbolKey1); // 1
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>

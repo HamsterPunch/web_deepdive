@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>7번째 데이터 타입 Symbol | 심벌과 표준 빌트인 객체 확장</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./05.html">이전</a>
+                <a href="">홈</a>
+                <a href="./07.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>33.6 심벌과 표준 빌트인 객체 확장</h2>
+
+            <div class="article">
+                <p>
+                    일반적으로 표준 빌트인 객체에 사용자 정의 메서드를 직접 추가하여 확장하는 것은 권장하지 않는다. 표준 빌트인 객체는 읽기 전용으로 사용하는 것이 좋다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        // 표준 빌트인 객체를 확장하는 것은 권장하지 않는다.
+                        Array.prototype.sum = function() {
+                            return this.reduce((acc, cur) => acc + cur, 0);
+                        };
+
+                        [1, 2].sum(); // 3
+                    </code>
+                </pre>
+                <p>
+                    그 이유는 개발자가 직접 추가한 메서드와 미래에 표준 사양으로 추가될 메서드의 이름이 중복될 수 있기 때문이다. 예를 들어, Array.prototype.find 메서드가 ES6에서 도입되기 이전에 Array.prototype에 사용자 정의 find 메서드를 직접 추가했다면 새롭게 도입된 ES6의 Array.prototype.find 매서드와 이름이 중복되어 ES6의 Array.prototype.find 메서드를 이전에 추가했던 사용자 정의 find 메서드가 덮어쓴다. 표준 빌트인 메서드를 사용자 정의 메서드가 덮어쓴다면 문제가 된다.
+                </p>
+                <p>
+                    하지만 중복될 가능성이 없는 심벌 값으로 프로퍼티 키를 생성하여 표준 빌트인 객체를 확장하면 표준 빌트인 객체의 기존 프로퍼티 키와 충돌하지 않는 것은 물론, 표준 사양의 버전이 올라감에 따라 추가될지 모르는 어떤 프로퍼티 키와도 충돌할 위험이 없어 안전하게 표준 빌트인 객체를 확장할 수 있다.
+                </p>
+                <pre>
+                    <code class="javascript">
+                        Array.prototype[Symbol.for('sum')] = function() {
+                            return this.reduce((acc, cur) => acc + cur, 0);
+                        };
+
+                        [1, 2][Symbol.for('sum')](); // 3
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>
