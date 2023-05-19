@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>브라우저의 렌더링 과정 | HTTP 1.1과 HTTP 2.0</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./01.html">이전</a>
+                <a href="">홈</a>
+                <a href="./03.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>38.2 HTTP 1.1과 HTTP 2.0</h2>
+
+            <div class="article">
+                <p>
+                    HTTP는 웹에서 브라우저와 서버가 통신하기 위한 프로토콜(규약)이다. 1989년, HTML, URL과 함께 팀 버너스 리 경이 고안한 HTTP는 1991년 최초로 문서화되었고 1996년 HTTP/1.0, 199sus HTTP/1.1, 2015년 HTTP/2가 발표되었다. 이 가운데 HTTP/1.1과 HTTP/2의 차이점을 간략히 살펴보자.
+                </p>
+                <p>
+                    HTTP/1.1은 기본적으로 커넥션당 하나의 요청과 응답만 처리한다. 즉, 여러 개의 요청을 한 번에 전송할 수 없고 응답 또한 마찬가지다. 따라서 HTML 문서 내에 포함된 여러 개의 리소스 요청, 즉 CSS 파일을 로드하는 link 태그, 이미지 파일을 로드하는 img 태그, 자바스크립트를 로드하는 script 태그 등에 의한 리소스 요청이 개별적으로 전송되고 응답 또한 개별적으로 전송된다. 이처럼 HTTP/1.1은 리소스의 동시 전송이 불가능한 구조이므로 요청할 리소스의 개수에 비례하여 응답 시간도 증가하는 단점이 있다.
+                </p>
+                <p>
+                    이처럼 HTTP/1.1은 다중 요청/응답이 불가하다는 단점이 있지만 HTTP/2는 커넥션당 여러 개의 요청과 응답, 즉 다중 요청/응답이 가능하다. 따라서 HTTP/2.0은 여러 리소스의 동시 전송이 가능하므로 HTTP/1.1에 비해 페이지 로드 속도가 약 50% 정도 빠르다고 알려져 있다.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

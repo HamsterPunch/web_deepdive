@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>브라우저의 렌더링 과정 | 자바스크립트 파싱에 의한 HTML 파싱 중단</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./07.html">이전</a>
+                <a href="">홈</a>
+                <a href="./09.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>38.8 자바스크립트 파싱에 의한 HTML 파싱 중단</h2>
+
+            <div class="article">
+                <p>
+                    지금까지 살펴본 바와 같이 렌더링 엔진과 자바스크립트 엔진은 병렬적으로 파싱을 실행하지 않고 직렬적으로 파싱을 수행한다.
+                </p>
+                <p>
+                    이처럼 브라우저는 동기적으로, 즉 위에서 아래 방향으로 순차적으로 HTML, CSS, 자바스크립트를 파싱하고 실행한다. 이것은 script 태그의 위치에 따라 HTML 파싱이 블로킹되어 DOM 생성이 지연될 수 있다는 것을 의미한다. 따라서 script 태그의 위치는 중요한 의미를 갖는다.
+                </p>
+                <pre>
+                    <code class="html">
+                        &#x3C;!DOCTYPE html&#x3E;
+                        &#x3C;html&#x3E;
+                            &#x3C;head&#x3E;
+                                &#x3C;meta charset=&#x22;UTF-8&#x22;&#x3E;
+                                &#x3C;link rel=&#x22;stylesheet&#x22; href=&#x22;style.css&#x22;&#x3E;
+                                &#x3C;script src=&#x22;app.js&#x22;&#x3E;&#x3C;/script&#x3E;
+                            &#x3C;/head&#x3E;
+                            &#x3C;body&#x3E;
+                                &#x3C;ul&#x3E;
+                                    &#x3C;li id=&#x22;apple&#x22;&#x3E;Apple&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;banana&#x22;&#x3E;Banana&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;orange&#x22;&#x3E;Orange&#x3C;/li&#x3E;
+                                &#x3C;/ul&#x3E;
+                            &#x3C;/body&#x3E;
+                        &#x3C;/html&#x3E;
+                    </code>
+                </pre>
+                <p>
+                    위 예제의 경우 app.js의 파싱과 실행 이전까지는 DOM의 생성이 일시 중단된다. 이떄 자바스크립트 코드(app.js)에서 DOM이나 CSSOM을 변경하는 DOM API를 사용할 경우 DOM이나 CSSOM이 이미 생성되어 있어야 한다. 만약 DOM을 변경하는 DOM API를 사용할 때 DOM의 생성이 완료되지 않은 상태라면 문제가 발생할 수 있다.
+                </p>
+                <p>
+                    다음 예제를 살펴보자. 다음 자바스크립트 코드의 동작 방식을 지금 당장 이해할 필요는 없다. 지금 주목할 것은 script 태그의 위치에 의해 블로킹이 발생한다는 것이다.
+                </p>
+                <pre>
+                    <code class="html">
+                        &#x3C;!DOCTYPE html&#x3E;
+                        &#x3C;html&#x3E;
+                            &#x3C;head&#x3E;
+                                &#x3C;meta charset=&#x22;UTF-8&#x22;&#x3E;
+                                &#x3C;link rel=&#x22;stylesheet&#x22; href=&#x22;style.css&#x22;&#x3E;
+                                &#x3C;script&#x3E;
+                                    const $apple = document.getElementById(&#x27;apple&#x27;);
+                                    $apple.style.color = &#x27;red&#x27;;
+                                &#x3C;/script&#x3E;
+                            &#x3C;/head&#x3E;
+                            &#x3C;body&#x3E;
+                                &#x3C;ul&#x3E;
+                                    &#x3C;li id=&#x22;apple&#x22;&#x3E;Apple&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;banana&#x22;&#x3E;Banana&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;orange&#x22;&#x3E;Orange&#x3C;/li&#x3E;
+                                &#x3C;/ul&#x3E;
+                            &#x3C;/body&#x3E;
+                        &#x3C;/html&#x3E;
+                    </code>
+                </pre>
+                <p>
+                    DOM API인 document.getElementById('apple')은 DOM에서 id가 'apple'인 HTML 요소를 취득한다. 하지만 document.getElementById('apple')을 실행하는 시점에는 아직 id가 'apple'인 HTML 요소를 파싱하지 않았기 때문에 DOM에는 id가 'apple'인 HTML 요소가 포함되어 있지 않은 상태다. 따라서 위 예제는 정상적으로 동작하지 않는다.
+                </p>
+                <p>
+                    이러한 문제를 회피하기 위해 body 요소의 가장 아래에 자바스크립트를 위치시키는 것은 좋은 아이디어다. 그 이유는 다음과 같다.
+                    <ul>
+                        <li>
+                            DOM이 완성되지 않은 상태에서 자바스크립트가 DOM을 조작하면 에러가 발생할 수 있다.
+                        </li>
+                        <li>
+                            자바스크립트 로딩/파싱/실행으로 인해 HTML 요소들의 렌더링에 지장받는 일이 발생하지 않아 페이지 로딩 시간이 단축된다.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    위 예제의 자바스크립트를 body 요소의 가장 아래, 즉 닫는 body 태그 바로 위에 위치시켜 보자.
+                </p>
+                <pre>
+                    <code class="html">
+                        &#x3C;!DOCTYPE html&#x3E;
+                        &#x3C;html&#x3E;
+                            &#x3C;head&#x3E;
+                                &#x3C;meta charset=&#x22;UTF-8&#x22;&#x3E;
+                                &#x3C;link rel=&#x22;stylesheet&#x22; href=&#x22;style.css&#x22;&#x3E;
+                            &#x3C;/head&#x3E;
+                            &#x3C;body&#x3E;
+                                &#x3C;ul&#x3E;
+                                    &#x3C;li id=&#x22;apple&#x22;&#x3E;Apple&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;banana&#x22;&#x3E;Banana&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;orange&#x22;&#x3E;Orange&#x3C;/li&#x3E;
+                                &#x3C;/ul&#x3E;
+                                &#x3C;script&#x3E;
+                                    const $apple = document.getElementById(&#x27;apple&#x27;);
+                                    $apple.style.color = &#x27;red&#x27;;
+                                &#x3C;/script&#x3E;
+                            &#x3C;/body&#x3E;
+                        &#x3C;/html&#x3E;
+                    </code>
+                </pre>
+                <p>
+                    자바스크립트가 실행될 시점에는 이미 렌더링 엔진이 HTML 요소를 모두 파싱하여 DOM 생성을 완료한 이후다. 따라서 DOM이 완성되지 않은 상태에서 자바스크립트가 DOM을 조작하는 에러가 발생할 우려도 없다. 또한 자바스크립트가 실행되기 이전에 DOM 생성이 완료되어 렌더링되므로 페이지 로딩 시간이 단축되는 이점도 있다.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

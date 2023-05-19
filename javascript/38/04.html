@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- basic style -->
+        <link rel="stylesheet" href="../../style/basic.css">
+        <!-- highlight.js -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <!-- title -->
+        <title>브라우저의 렌더링 과정 | CSS 파싱과 CSSOM 생성</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header">
+            <nav class="navigation">
+                <a href="./03.html">이전</a>
+                <a href="">홈</a>
+                <a href="./05.html">다음</a>
+            </nav>
+        </header>
+
+        <!-- content -->
+        <div class="page_content">
+            <h2>38.4 CSS 파싱과 CSSOM 생성</h2>
+
+            <div class="article">
+                <p>
+                    렌더링 엔진은 HTML을 처음부터 한 줄씩 순차적으로 파싱하여 DOM을 생성해 나간다. 이처럼 렌더링 엔진은 DOM을 생성해 나가다가 CSS를 로드하는 link 태그나 style 태그를 만나면 DOM 생성을 일시 중단한다.
+                </p>
+                <p>
+                    그리고 link 태그의 href 어트리뷰트에 지정된 CSS 파일을 서버에 요청하여 로드한 CSS 파일이나 style 태그 내의 CSS를 HTML과 동일한 파싱 과정(바이트 -> 문자 -> 토큰 -> 노드 -> CSSOM)을 거치며 해석하여 CSSOM을 생성한다. 이후 CSS 파싱을 완료하면 HTML 파싱이 중단된 지점부터 다시 HTML을 파싱하기 시작하여 DOM 생성을 재개한다.
+                </p>
+                <p>
+                    앞에서 살펴본 index.html을 다시 살펴보자. index.html에는 CSS 파일을 로드하는 link 태그가 있다.
+                </p>
+                <pre>
+                    <code class="html">
+                        &#x3C;!DOCTYPE html&#x3E;
+                        &#x3C;html&#x3E;
+                            &#x3C;head&#x3E;
+                                &#x3C;meta charset=&#x22;UTF-8&#x22;&#x3E;
+                                &#x3C;link rel=&#x22;stylesheet&#x22; href=&#x22;style.css&#x22;&#x3E;
+                            &#x3C;/head&#x3E;
+                            &#x3C;body&#x3E;
+                                &#x3C;ul&#x3E;
+                                    &#x3C;li id=&#x22;apple&#x22;&#x3E;Apple&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;banana&#x22;&#x3E;Banana&#x3C;/li&#x3E;
+                                    &#x3C;li id=&#x22;orange&#x22;&#x3E;Orange&#x3C;/li&#x3E;
+                                &#x3C;/ul&#x3E;
+                                &#x3C;script src=&#x22;app.js&#x22;&#x3E;&#x3C;/script&#x3E;
+                            &#x3C;/body&#x3E;
+                        &#x3C;/html&#x3E;
+                    </code>
+                </pre>
+                <p>
+                    렌더링 엔진은 meta 태그까지 HTML을 순차적으로 해석한 다음, link 태그를 만나면 DOM 생성을 일시 중단하고 link 태그의 href 어트리뷰트에 지정된 CSS 파일을 서버에 요청한다. 예를 들어, 다음과 같은 style.css 파일이 서버로부터 응답되었다고 가정해보자.
+                </p>
+                <pre>
+                    <code class="css">
+                        body {
+                            font-size: 18px;
+                        }
+
+                        ul {
+                            list-style-type: none;
+                        }
+                    </code>
+                </pre>
+                <p>
+                    서버로부터 CSS 파일이 응답되면 렌더링 엔진은 HTML과 동일한 해석 과정(바이트 -> 문자 -> 토큰 -> 노드 -> CSSOM)을 거쳐 CSS를 파싱하여 CSSOM을 생성한다.
+                </p>
+                <p>
+                    CSSOM은 CSS의 상속을 반영하여 생성된다. 위 예제의 body 요소에 적용한 font-size 프로퍼티와 ul 요소에 적용한 list-style-type 프로퍼티는 모든 li 요소에 상속된다.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
